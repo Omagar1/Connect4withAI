@@ -14,20 +14,73 @@ class Connect4Game:
             self.board.append(row)
         # creating height columnTokenCounter to enable quickly understanding how full a column is
         self.columnTokenCounter  = [0 for _ in range(length)]
+    
+    def startGame(self):
+        
+        self.players = []
+        # choose player 1
+        self.player1 = self.choosePlayer(1)
+        self.players.append(self.player1)
+        # choose player 2 
+        self.player1 = self.choosePlayer(2)
+        self.players.append(self.player1)
+        
+        # start the game
+        playerWon = False
+        round = 1
+        while(playerWon != True and round < self.length * self.hight):
+            player = self.players[(round%2)-1]
+            self.printBoard()
+            player.makeMove()
+            playerWon = self.isWinner(player.symbol)
+            round +=1
+            
+        self.printBoard()
+        if(playerWon):
+            print(f"Player {(round%2 + 1)} won!")
+        else:
+            print("No available moves its a Draw!")
+        
+        #player 1 moves
+        #check if player 1 wins 
+        # repeat for player 2 until some one wins
+    
+    def choosePlayer(self, playerNum):
+        availablePlayers = ["Human"]
+        print(f"choose from the following players for player {playerNum}")
+        i = 1
+        for player in availablePlayers:
+            print(f"{i})" +player)
+            
+        
+        
+        while(True):
+            userInput = input(": " )
+            match userInput:
+                case "Human":
+                    return HumanPlayer(self, "X" if playerNum ==1 else "O")
+                case _:
+                    print("invalid input Try again")     
+            
+        
+
+    
                 
     def printBoard(self):
         for row in self.board:
             row = "|" + "|".join(row) + "|"
             print(row)
         print( "|" + "|".join(list(str(num) for num in range(1,self.length + 1))) + "|")
-    # --- atributes ---
+        
+        
+    # --- attributes ---
     board = []
     columnTokenCounter = []
     length = 0
     hight = 0 
     
     def inBounds(self, row, col):
-        if row < self.hight or row > self.hight or col < self.length or col > self.length:
+        if row < 0 or row >= self.hight or col < 0 or col >= self.length:
             return False
         else: 
             return True
@@ -43,47 +96,87 @@ class Connect4Game:
     def isWinner(self, symbol):
         # end to end check checks both ends of a line before working its way in
         FOUR_AWAY_TRANSFORM_FACTORS = [(0,3),(3,3),(3,0),(0,-3),(3,-3),(-3,-3),(-3,0),(-3,3)]
-        row = self.hight -1 
+        
         column = 0
-        while row > (self.hight - (self.columnTokenCounter[column] +1)): ## only checking how high the tokens have reached so far
-            if self.board[row][column] == symbol:
-                for ROW_TRANSFORM, COL_TRANSFORM in FOUR_AWAY_TRANSFORM_FACTORS:
-                    checkRow = row + ROW_TRANSFORM
-                    checkCol = column + COL_TRANSFORM
-                    numChecked = 1
-                    while numChecked != 4:
-                        if self.inBounds(checkCol,checkRow) and self.board[checkRow][checkCol] == symbol:
-                            checkRow -= (1 * (ROW_TRANSFORM/3)) # will result is + or - 1  if ROW_TRANSFORM > 0 else  will be 0
-                            checkCol -= (1 * (COL_TRANSFORM/3)) # will result is + or - 1  if ROW_TRANSFORM > 0 else  will be 0
-                            numChecked += 1 
-                        else:
-                            break ## line broken therefore not counted: 
-                    if numChecked == 4:
-                        return True
-            row-=1
+        while (column < self.length ):
+            row = self.hight - 1 
+            while row > (self.hight - (self.columnTokenCounter[column] +1)): ## only checking how high the tokens have reached so far
+                if self.board[row][column] == symbol:
+                    for ROW_TRANSFORM, COL_TRANSFORM in FOUR_AWAY_TRANSFORM_FACTORS:
+                        checkRow = int(row - ROW_TRANSFORM )
+                        checkCol = int(column + COL_TRANSFORM) 
+                        numChecked = 1
+                        while numChecked != 4:
+                            # print(f" for space ({checkCol}, {checkRow}): ") # test
+                            # print(self.inBounds(checkRow,checkCol)) # test
+                            # try:
+                            #     print(self.board[checkRow][checkCol] == symbol)# test
+                            # except:
+                            #     print("error") # test
+                            if self.inBounds(checkRow,checkCol) and self.board[checkRow][checkCol] == symbol:
+                                checkRow += int(1 * (ROW_TRANSFORM/3)) # will result is + or - 1  if ROW_TRANSFORM > 0 else  will be 0
+                                checkCol -= int(1 * (COL_TRANSFORM/3)) # will result is + or - 1  if ROW_TRANSFORM > 0 else  will be 0
+                                numChecked += 1 
+                            else:
+                                break ## line broken therefore not counted: 
+                        if numChecked == 4:
+                            return True
+                row -=1
+            column += 1
         return False
-        
+
+
+class HumanPlayer:
+    def __init__(self, game, symbol):
+        self.game = game
+        self.symbol = symbol
+    
+    def makeMove(self):
+        moveValid = False
+        while (moveValid != True):
+            chosenCol = input("coloumn: ")
+            try: 
+                chosenCol = int(chosenCol) 
+                if(chosenCol < 1 or chosenCol > self.game.length):
+                    print(f"Please input a Number between 1 and {self.game.length}!")
+                else:
+                    moveValid = self.game.makeMove(chosenCol, self.symbol)
+                    if (moveValid == False):
+                        print("row is full! ")
+            except ValueError:
+                print(f"Please input a valid  Number! ")
             
-        
-    
-    
+
+
 # test 
 g1 = Connect4Game()
-g1.printBoard()
-print("") # spacing 
-g1.makeMove(1,"X")
-g1.makeMove(1,"X")
-g1.makeMove(1,"X")
-g1.makeMove(1,"X")
+g1.startGame()
+
+# p1 = HumanPlayer(g1,"X")
+# p1.makeMove()
+# g1.printBoard()
+# p1.makeMove()
+# g1.printBoard()
+# - break check
+# g1.printBoard()
+# print("") # spacing 
+# g1.makeMove(1,"X")
+# g1.makeMove(2,"O")
+# g1.makeMove(3,"X")
+# g1.makeMove(4,"X")
+# g1.makeMove(5,"X")
+# g1.makeMove(6,"X")
+
+# - diagonal check - 
 # g1.makeMove(1,"X")
 # g1.makeMove(2,"O")
 # g1.makeMove(2,"X")
 # g1.makeMove(3,"O")
 # g1.makeMove(3,"O")
-# g1.makeMove(3,"O")
+# g1.makeMove(3,"X")
 # g1.makeMove(4,"O")
 # g1.makeMove(4,"O")
 # g1.makeMove(4,"O")
 # g1.makeMove(4,"X")
-g1.printBoard()
-print(g1.isWinner("X"))
+# g1.printBoard()
+# print(g1.isWinner("X"))
