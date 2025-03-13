@@ -194,6 +194,53 @@ class SmartAgent:
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X" 
         
+    def checkForWinningMove(self, symbol):
+        col = 1
+        for col in range(1,self.game.length):
+            #check 
+            copyOfGame = copy.deepcopy(self.game)
+            copyOfGame.makeMove(col,symbol)
+            
+            if(copyOfGame.isWinner(symbol)):
+                # make move
+                return col
+                
+            col += 1
+        return False
+        
+    def makeMove(self):
+        moveValid = False
+        sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+        
+        # 1) check if there is a winning move for self 
+        winningMove = self.checkForWinningMove(self.symbol)
+        if(winningMove != False):
+            moveValid = self.game.makeMove(winningMove, self.symbol)
+        # 2) check if winning move for opponent 
+        blockingMove = self.checkForWinningMove(self.opponentSymbol)
+        if(blockingMove != False):
+            moveValid = self.game.makeMove(blockingMove, self.symbol)
+        
+        # 3) no winning or blocking move found revert to random move
+        while (moveValid != True):
+            chosenCol = random.randint(1,self.game.length)
+            moveValid = self.game.makeMove(chosenCol, self.symbol)
+        
+        return False                 
+                        
+class minMaxAgent:
+    def __init__(self, game, symbol, currentDepth = 1 ,maxDepth = 5):
+        self.game = game
+        self.symbol = symbol
+        self.opponentSymbol = "O" if self.symbol == "X" else "X" 
+        self.currentDepth = currentDepth
+        self.maxDepth = maxDepth
+    
+    def calcPositionScore():
+        score = 0
+        
+        return score  
+        
     def makeMove(self):
         moveValid = False
         sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
@@ -230,9 +277,7 @@ class SmartAgent:
             chosenCol = random.randint(1,self.game.length)
             moveValid = self.game.makeMove(chosenCol, self.symbol)
         
-        return False                 
-                        
-            
+        return False
             
 
 
