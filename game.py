@@ -1,5 +1,6 @@
 import random 
 from time import sleep
+import copy
 
 class Connect4Game:
     
@@ -76,8 +77,8 @@ class Connect4Game:
         self.columnTokenCounter  = [0 for _ in range(self.length)]
     
     def choosePlayer(self, playerNum):
-        availablePlayers = ["Human", "Random"]
-        print(f"choose from the following players for player {playerNum}")
+        availablePlayers = ["Human", "Random", "Smart"]
+        print(f"choose from the following Agents for player {playerNum}")
         i = 1
         for player in availablePlayers:
             print(f"{i}) " +player)
@@ -90,6 +91,8 @@ class Connect4Game:
                     return HumanPlayer(self, "X" if playerNum ==1 else "O")
                 case "Random":
                     return RandomAgent(self, "X" if playerNum ==1 else "O")
+                case "Smart":
+                    return SmartAgent(self, "X" if playerNum ==1 else "O")
                 case _:
                     print("invalid input Try again")     
             
@@ -184,7 +187,50 @@ class RandomAgent:
             chosenCol = random.randint(1,self.game.length)
             sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
             moveValid = self.game.makeMove(chosenCol, self.symbol)
-                    
+
+class SmartAgent:
+    def __init__(self, game, symbol):
+        self.game = game
+        self.symbol = symbol
+        self.opponentSymbol = "O" if self.symbol == "X" else "X" 
+        
+    def makeMove(self):
+        moveValid = False
+        sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+        col = 1
+        # 1) check if there is a winning move for self 
+        for col in range(1,self.game.length):
+            #check 
+            copyOfGame = copy.deepcopy(self.game)
+            copyOfGame.makeMove(col,self.symbol)
+            
+            if(copyOfGame.isWinner(self.symbol)):
+                # make move
+                self.game.makeMove(col, self.symbol)
+                return True
+                
+            col += 1
+        
+        col = 1  
+        # 2) check if winning move for opponent 
+        for col in range(1,self.game.length):
+            #check 
+            copyOfGame = copy.deepcopy(self.game)
+            copyOfGame.makeMove(col,self.opponentSymbol)
+            
+            if(copyOfGame.isWinner(self.opponentSymbol)):
+                # make move
+                self.game.makeMove(col, self.symbol)
+                return True
+                
+            col += 1
+        
+        # 3) no winning or blocking move found revert to random move
+        while (moveValid != True):
+            chosenCol = random.randint(1,self.game.length)
+            moveValid = self.game.makeMove(chosenCol, self.symbol)
+        
+        return False                 
                         
             
             
