@@ -236,48 +236,55 @@ class minMaxAgent:
         self.currentDepth = currentDepth
         self.maxDepth = maxDepth
     
-    def calcPositionScore():
-        score = 0
+    def calcPositionScore(self): # will return in format (col, score)
+        score = 0 # score will be from -1 to 1 with -1 means opponent can win in one move  and 1 being self can win  in one move 
+        # + or - 1/n as decimal will represent n moves away from winning + for self - for opponent
+        # 0 represents  no winning moves found for either player within depth limit 
+        move = 1
+        if(self.currentDepth >= self.maxDepth):
+            return move,score
         
-        return score  
+        winningMove = self.checkForWinningMove(self.symbol)
+        if(winningMove != False):
+            move = winningMove
+            score = 1/self.currentDepth
+            return move, score 
+        else:
+            blockingMove = self.checkForWinningMove(self.opponentSymbol)
+            if(blockingMove != False): 
+                move = blockingMove
+                score = -1/self.currentDepth
+                return move, score
+            else:
+                return self.calcPositionScore()
+                
+            
+            
+        
+    def __init__(self, game, symbol):
+        self.game = game
+        self.symbol = symbol
+        self.opponentSymbol = "O" if self.symbol == "X" else "X" 
+        
+    def checkForWinningMove(self, symbol):
+        col = 1
+        for col in range(1,self.game.length):
+            #check 
+            copyOfGame = copy.deepcopy(self.game)
+            copyOfGame.makeMove(col,symbol)
+            
+            if(copyOfGame.isWinner(symbol)):
+                # make move
+                return col
+                
+            col += 1
+        return False
         
     def makeMove(self):
         moveValid = False
         sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
-        col = 1
-        # 1) check if there is a winning move for self 
-        for col in range(1,self.game.length):
-            #check 
-            copyOfGame = copy.deepcopy(self.game)
-            copyOfGame.makeMove(col,self.symbol)
-            
-            if(copyOfGame.isWinner(self.symbol)):
-                # make move
-                self.game.makeMove(col, self.symbol)
-                return True
-                
-            col += 1
         
-        col = 1  
-        # 2) check if winning move for opponent 
-        for col in range(1,self.game.length):
-            #check 
-            copyOfGame = copy.deepcopy(self.game)
-            copyOfGame.makeMove(col,self.opponentSymbol)
-            
-            if(copyOfGame.isWinner(self.opponentSymbol)):
-                # make move
-                self.game.makeMove(col, self.symbol)
-                return True
-                
-            col += 1
-        
-        # 3) no winning or blocking move found revert to random move
-        while (moveValid != True):
-            chosenCol = random.randint(1,self.game.length)
-            moveValid = self.game.makeMove(chosenCol, self.symbol)
-        
-        return False
+        return False  
             
 
 
