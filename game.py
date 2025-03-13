@@ -1,23 +1,23 @@
 class Connect4Game:
     
+    # --- attributes ---
+    board = []
+    columnTokenCounter = []
+    length = 0
+    hight = 0 
+    
+    # --- methods ---
+    
     def __init__(self, length = 7, hight = 6):
         self.length = length
         self.hight = hight
-        
-        # creating the board 
-        i = 0
-        for i in range(hight):
-            j = 0
-            row = []
-            for j in range(length):
-                row.append(" ")
-            self.board.append(row)
-        # creating height columnTokenCounter to enable quickly understanding how full a column is
-        self.columnTokenCounter  = [0 for _ in range(length)]
     
     def startGame(self):
+        # creating/ resetting board
+        self.resetBoard()
         
-        self.players = []
+        # choosing players 
+        self.players = [] # used to alternate between players in while loop 
         # choose player 1
         self.player1 = self.choosePlayer(1)
         self.players.append(self.player1)
@@ -26,6 +26,8 @@ class Connect4Game:
         self.players.append(self.player1)
         
         # start the game
+        print("---- Connect 4 Game! ----")
+        
         playerWon = False
         round = 1
         while(playerWon != True and round < self.length * self.hight):
@@ -41,9 +43,34 @@ class Connect4Game:
         else:
             print("No available moves its a Draw!")
         
-        #player 1 moves
-        #check if player 1 wins 
-        # repeat for player 2 until some one wins
+        print("Would you Like to play Again?")
+        
+        playAgain = True
+        while(playAgain):
+            userInput = input(": " )
+            match userInput:
+                case "Y":
+                    playAgain = self.startGame()
+                case "N":
+                    playAgain = False
+                    print("exiting...")
+                    return playAgain
+                case _:
+                    print("invalid input Try again")  
+        
+    def resetBoard(self):
+        self.board = []
+        i = 0
+        for i in range(self.hight):
+            j = 0
+            row = []
+            for j in range(self.length):
+                row.append(" ")
+            self.board.append(row)
+        # creating height columnTokenCounter to enable quickly understanding how full a column is
+        self.columnTokenCounter  = [0 for _ in range(self.length)]
+    
+    
     
     def choosePlayer(self, playerNum):
         availablePlayers = ["Human"]
@@ -73,11 +100,7 @@ class Connect4Game:
         print( "|" + "|".join(list(str(num) for num in range(1,self.length + 1))) + "|")
         
         
-    # --- attributes ---
-    board = []
-    columnTokenCounter = []
-    length = 0
-    hight = 0 
+    
     
     def inBounds(self, row, col):
         if row < 0 or row >= self.hight or col < 0 or col >= self.length:
