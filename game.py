@@ -1,3 +1,6 @@
+import random 
+from time import sleep
+
 class Connect4Game:
     
     # --- attributes ---
@@ -31,6 +34,7 @@ class Connect4Game:
         playerWon = False
         round = 1
         while(playerWon != True and round < self.length * self.hight):
+            print(f" ---- Player {(round%2)+1}'s Move ----")
             player = self.players[(round%2)-1]
             self.printBoard()
             player.makeMove()
@@ -39,10 +43,11 @@ class Connect4Game:
             
         self.printBoard()
         if(playerWon):
-            print(f"Player {(round%2 + 1)} won!")
+            print(f" ---- Player {(round%2 + 1)} won! ----")
         else:
-            print("No available moves its a Draw!")
+            print("---- No available moves its a Draw! ----")
         
+        self.printBoard()
         print("Would you Like to play Again?")
         
         playAgain = True
@@ -70,22 +75,21 @@ class Connect4Game:
         # creating height columnTokenCounter to enable quickly understanding how full a column is
         self.columnTokenCounter  = [0 for _ in range(self.length)]
     
-    
-    
     def choosePlayer(self, playerNum):
-        availablePlayers = ["Human"]
+        availablePlayers = ["Human", "Random"]
         print(f"choose from the following players for player {playerNum}")
         i = 1
         for player in availablePlayers:
-            print(f"{i})" +player)
-            
-        
-        
+            print(f"{i}) " +player)
+            i += 1
+
         while(True):
             userInput = input(": " )
             match userInput:
                 case "Human":
                     return HumanPlayer(self, "X" if playerNum ==1 else "O")
+                case "Random":
+                    return RandomAgent(self, "X" if playerNum ==1 else "O")
                 case _:
                     print("invalid input Try again")     
             
@@ -148,7 +152,7 @@ class Connect4Game:
             column += 1
         return False
 
-
+# --- agents --- 
 class HumanPlayer:
     def __init__(self, game, symbol):
         self.game = game
@@ -168,6 +172,21 @@ class HumanPlayer:
                         print("row is full! ")
             except ValueError:
                 print(f"Please input a valid  Number! ")
+
+class RandomAgent:
+    def __init__(self, game, symbol):
+        self.game = game
+        self.symbol = symbol
+        
+    def makeMove(self):
+        moveValid = False
+        while (moveValid != True):
+            chosenCol = random.randint(1,self.game.length)
+            sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+            moveValid = self.game.makeMove(chosenCol, self.symbol)
+                    
+                        
+            
             
 
 
