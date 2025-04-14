@@ -1,4 +1,5 @@
 import random 
+import math
 from time import sleep
 import copy
 
@@ -34,22 +35,22 @@ class Connect4Game:
         
         playerWon = False
         round = 1
-        while(playerWon != True and round < self.length * self.hight):
-            print(f" ---- Player {(round%2)+1}'s Move ----")
+        while(playerWon != True and round < self.length * self.hight): # second condition is to check is the board is not full
+            print(f" ---- Player { 1 if round % 2 == 1 else 2}'s Move ----")
             player = self.players[(round%2)-1]
             self.printBoard()
             player.makeMove()
             playerWon = self.isWinner(player.symbol)
             round +=1
             
-        self.printBoard()
+        #self.printBoard() # why?
         if(playerWon):
             print(f" ---- Player {(round%2 + 1)} won! ----")
         else:
             print("---- No available moves its a Draw! ----")
         
-        self.printBoard()
-        print("Would you Like to play Again?")
+        self.printBoard() # end state 
+        print("Would you Like to play Again? (Y/N)")
         
         playAgain = True
         while(playAgain):
@@ -87,11 +88,11 @@ class Connect4Game:
         while(True):
             userInput = input(": " )
             match userInput:
-                case "Human":
+                case "1":
                     return HumanPlayer(self, "X" if playerNum ==1 else "O")
-                case "Random":
+                case "2":
                     return RandomAgent(self, "X" if playerNum ==1 else "O")
-                case "Smart":
+                case "3":
                     return SmartAgent(self, "X" if playerNum ==1 else "O")
                 case _:
                     print("invalid input Try again")     
@@ -192,7 +193,10 @@ class SmartAgent:
     def __init__(self, game, symbol):
         self.game = game
         self.symbol = symbol
-        self.opponentSymbol = "O" if self.symbol == "X" else "X" 
+        self.opponentSymbol = "O" if self.symbol == "X" else "X"
+        
+        ### test #### 
+        self.minMaxAgent = minMaxAgent(self.game, self.symbol, 2)
         
     def checkForWinningMove(self, symbol):
         col = 1
@@ -204,11 +208,11 @@ class SmartAgent:
             if(copyOfGame.isWinner(symbol)):
                 # make move
                 return col
-                
             col += 1
         return False
         
     def makeMove(self):
+        print(self.minMaxAgent.calcMovesScores(self.game)) ### test ### 
         moveValid = False
         sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
         
@@ -216,75 +220,82 @@ class SmartAgent:
         winningMove = self.checkForWinningMove(self.symbol)
         if(winningMove != False):
             moveValid = self.game.makeMove(winningMove, self.symbol)
+            return False
         # 2) check if winning move for opponent 
         blockingMove = self.checkForWinningMove(self.opponentSymbol)
         if(blockingMove != False):
             moveValid = self.game.makeMove(blockingMove, self.symbol)
+            return False
         
         # 3) no winning or blocking move found revert to random move
         while (moveValid != True):
             chosenCol = random.randint(1,self.game.length)
             moveValid = self.game.makeMove(chosenCol, self.symbol)
+
         
-        return False                 
+        return False
+    
+                
                         
 class minMaxAgent:
-    def __init__(self, game, symbol, currentDepth = 1 ,maxDepth = 5):
+    def __init__(self, game, symbol, maxDepth = 5):
         self.game = game
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X" 
-        self.currentDepth = currentDepth
         self.maxDepth = maxDepth
     
     def calcPositionScore(self): # will return in format (col, score)
-        score = 0 # score will be from -1 to 1 with -1 means opponent can win in one move  and 1 being self can win  in one move 
-        # + or - 1/n as decimal will represent n moves away from winning + for self - for opponent
-        # 0 represents  no winning moves found for either player within depth limit 
-        move = 1
-        if(self.currentDepth >= self.maxDepth):
-            return move,score
+        # score = 0 # score will be from -1 to 1 with -1 means opponent can win in one move  and 1 being self can win in one move 
+        # # + or - 1/n as decimal will represent n moves away from winning + for self - for opponent
+        # # 0 represents  no winning moves found for either player within depth limit 
+        # move = 1
+        # if(self.currentDepth >= self.maxDepth):
+        #     return move,score
         
-        winningMove = self.checkForWinningMove(self.symbol)
-        if(winningMove != False):
-            move = winningMove
-            score = 1/self.currentDepth
-            return move, score 
-        else:
-            blockingMove = self.checkForWinningMove(self.opponentSymbol)
-            if(blockingMove != False): 
-                move = blockingMove
-                score = -1/self.currentDepth
-                return move, score
-            else:
-                return self.calcPositionScore()
-                
-            
-            
+        # winningMove = self.checkForWinningMove(self.symbol)
+        # if(winningMove != False):
+        #     move = winningMove
+        #     score = 1/self.currentDepth
+        #     return move, score 
+        # else:
+        #     blockingMove = self.checkForWinningMove(self.opponentSymbol)
+        #     if(blockingMove != False): 
+        #         move = blockingMove
+        #         score = -1/self.currentDepth
+        #         return move, score
+        #     else:
+        #         return move, score 
+        pass
+    
+    def calcMovesScores(self, game, isSelfTurn = True, currentDepth = 1):
         
-    def __init__(self, game, symbol):
-        self.game = game
-        self.symbol = symbol
-        self.opponentSymbol = "O" if self.symbol == "X" else "X" 
+        if(currentDepth > self.maxDepth):
+            return 0; ## no winning move found at maximum depth so position is deemed neutral
         
-    def checkForWinningMove(self, symbol):
+        scores = {col: 0 for col in range(game.length)}
+        
         col = 1
-        for col in range(1,self.game.length):
-            #check 
-            copyOfGame = copy.deepcopy(self.game)
-            copyOfGame.makeMove(col,symbol)
+        for col in range(1, game.length):
+            copyOfGameForSelf = copy.deepcopy(game)
+            copyOfGameForSelf.makeMove(col, self.symbol)
             
-            if(copyOfGame.isWinner(symbol)):
-                # make move
-                return col
-                
-            col += 1
-        return False
+            copyOfGameForOpp = copy.deepcopy(game)
+            copyOfGameForOpp.makeMove(col, self.opponentSymbol)
+            
+            if(copyOfGameForSelf.isWinner(self.symbol)): ## self wins ends chain so returns 1
+                scores[col] = 1/currentDepth 
+            elif(copyOfGameForOpp.isWinner(self.opponentSymbol)):
+                scores[col] = -1/(currentDepth+1)
+            else:
+                gameToPass = copyOfGameForSelf if isSelfTurn else copyOfGameForOpp
+                scores[col]  = self.calcMovesScores(gameToPass, not isSelfTurn, currentDepth + 1)
+            
+        return scores
         
-    def makeMove(self):
-        moveValid = False
-        sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+    def minMax(self):
+        scores = self.calcMovesScores(self.game)
         
-        return False  
+    
             
 
 
