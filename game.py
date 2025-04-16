@@ -269,9 +269,9 @@ class minMaxAgent:
             if(not moveValid): ## so as not to suggest a move that isn't valid
                 scores[col] = None
             elif(copyOfGameForSelf.isWinner(self.symbol)):  
-                scores[col] = 10**(self.maxDepth-currentDepth) * (1 if isSelfTurn else -1) # so opponent move is bad
+                scores[col] = 10**(self.maxDepth-currentDepth) * (1 if isSelfTurn  else -0.5) # second condition so it will understand what the opponent will do 
             elif(copyOfGameForOpp.isWinner(self.opponentSymbol)):
-                scores[col] = (10**(self.maxDepth-currentDepth))/2 * (1 if isSelfTurn else -1)## as to not make a winning move more a higher score but not a winning move in  more than one move 
+                scores[col] = (10**(self.maxDepth-currentDepth)) * (0.5 if isSelfTurn != 0 else -1) ## 0.5 in both scores is to represent a blocking move 
             else:
                 gameToPass = copyOfGameForSelf if isSelfTurn else copyOfGameForOpp
                 scores[col]  = self.calcMovesScores(gameToPass, not isSelfTurn, currentDepth + 1)
@@ -288,7 +288,7 @@ class minMaxAgent:
         for col, score in scores.items():
             #print(type(score))
             if (score == None):
-                availableCols.pop(col-1) ## removing so it isn't used as best col as the move isn't valid
+                availableCols.remove(col) ## removing so it isn't used as best col as the move isn't valid 
             elif (isinstance(score, dict)):
                 scores[col] = self.minMax(score, not isMaxing)[1]
                 score = scores[col]
@@ -303,8 +303,9 @@ class minMaxAgent:
                     colWithBestScore = col
 
         if(colWithBestScore == None):
-            colWithBestScore = availableCols[0]
-            bestScore = scores[colWithBestScore]
+            randomIndex = random.randint(0,len(availableCols)-1)
+            colWithBestScore = availableCols[randomIndex] ## adding some random so it wont always play the same game if it thinks moves have equal value 
+            bestScore = scores[colWithBestScore]## Randomise 
 
         return (colWithBestScore, bestScore)
         
@@ -314,8 +315,14 @@ class minMaxAgent:
         bestCol = result[0]
         bestScore = result[1]
         ### making the move ### 
-        sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
-        ##print (scores)
+        ##sleep(0.5) # added sleep so that the moves are made at a manageable speed for humans to see
+        print (scores)
+        ## steps away
+        ##steps = math.log(abs(bestScore),5)
+        
+
+
+
         print(f"best Col:{bestCol} with score: {bestScore}")
       
         moveValid = self.game.makeMove(bestCol, self.symbol)
