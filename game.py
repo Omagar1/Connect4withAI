@@ -78,7 +78,7 @@ class Connect4Game:
         self.columnTokenCounter  = [0 for _ in range(self.length)]
     
     def choosePlayer(self, playerNum):
-        availablePlayers = ["Human", "Random", "Smart"]
+        availablePlayers = ["Human", "Random", "Smart", "Min-Max"]
         print(f"choose from the following Agents for player {playerNum}")
         i = 1
         for player in availablePlayers:
@@ -94,6 +94,8 @@ class Connect4Game:
                     return RandomAgent(self, "X" if playerNum ==1 else "O")
                 case "3":
                     return SmartAgent(self, "X" if playerNum ==1 else "O")
+                case "4":
+                    return minMaxAgent(self, "X" if playerNum ==1 else "O")
                 case _:
                     print("invalid input Try again")     
             
@@ -196,7 +198,7 @@ class SmartAgent:
         self.opponentSymbol = "O" if self.symbol == "X" else "X"
         
         ### test #### 
-        self.minMaxAgent = minMaxAgent(self.game, self.symbol, 2)
+        ##self.minMaxAgent = minMaxAgent(self.game, self.symbol, 2)
         
     def checkForWinningMove(self, symbol):
         col = 1
@@ -212,7 +214,11 @@ class SmartAgent:
         return False
         
     def makeMove(self):
-        print(self.minMaxAgent.calcMovesScores(self.game)) ### test ### 
+         ### test ### 
+        ##scores = self.minMaxAgent.calcMovesScores(self.game)
+        ##print(scores)
+        ##print(type(scores[1]))
+
         moveValid = False
         sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
         
@@ -244,56 +250,75 @@ class minMaxAgent:
         self.opponentSymbol = "O" if self.symbol == "X" else "X" 
         self.maxDepth = maxDepth
     
-    def calcPositionScore(self): # will return in format (col, score)
-        # score = 0 # score will be from -1 to 1 with -1 means opponent can win in one move  and 1 being self can win in one move 
-        # # + or - 1/n as decimal will represent n moves away from winning + for self - for opponent
-        # # 0 represents  no winning moves found for either player within depth limit 
-        # move = 1
-        # if(self.currentDepth >= self.maxDepth):
-        #     return move,score
-        
-        # winningMove = self.checkForWinningMove(self.symbol)
-        # if(winningMove != False):
-        #     move = winningMove
-        #     score = 1/self.currentDepth
-        #     return move, score 
-        # else:
-        #     blockingMove = self.checkForWinningMove(self.opponentSymbol)
-        #     if(blockingMove != False): 
-        #         move = blockingMove
-        #         score = -1/self.currentDepth
-        #         return move, score
-        #     else:
-        #         return move, score 
-        pass
     
-    def calcMovesScores(self, game, isSelfTurn = True, currentDepth = 1):
+    def calcMovesScores(self, game, isSelfTurn = True, currentDepth = 1): ## will return a tree of scores for each possible move
+        
         
         if(currentDepth > self.maxDepth):
             return 0; ## no winning move found at maximum depth so position is deemed neutral
         
-        scores = {col: 0 for col in range(game.length)}
+        scores = {col: 0 for col in range(1, game.length+1)}
         
         col = 1
-        for col in range(1, game.length):
+        for col, score in scores.items():
             copyOfGameForSelf = copy.deepcopy(game)
-            copyOfGameForSelf.makeMove(col, self.symbol)
+            moveValid = copyOfGameForSelf.makeMove(col, self.symbol)
             
             copyOfGameForOpp = copy.deepcopy(game)
             copyOfGameForOpp.makeMove(col, self.opponentSymbol)
-            
-            if(copyOfGameForSelf.isWinner(self.symbol)): ## self wins ends chain so returns 1
-                scores[col] = 1/currentDepth 
+            if(not moveValid): ## so as not to suggest a move that isn't valid
+                scores[col] = None
+            elif(copyOfGameForSelf.isWinner(self.symbol)):  
+                scores[col] = 10**(self.maxDepth-currentDepth) * (1 if isSelfTurn else -1) # so opponent move is bad
             elif(copyOfGameForOpp.isWinner(self.opponentSymbol)):
-                scores[col] = -1/(currentDepth+1)
+                scores[col] = (10**(self.maxDepth-currentDepth))/2 * (1 if isSelfTurn else -1)## as to not make a winning move more a higher score but not a winning move in  more than one move 
             else:
                 gameToPass = copyOfGameForSelf if isSelfTurn else copyOfGameForOpp
                 scores[col]  = self.calcMovesScores(gameToPass, not isSelfTurn, currentDepth + 1)
             
         return scores
         
-    def minMax(self):
+    def minMax(self, scores, isMaxing):
+        
+        score = 0 ## remove?
+        bestScore = 0; 
+        colWithBestScore = None; ##  defaulting to first column to avoid error
+        availableCols  = list(range(1, self.game.length + 1))
+        ##print(scores.items())
+        for col, score in scores.items():
+            #print(type(score))
+            if (score == None):
+                availableCols.pop(col-1) ## removing so it isn't used as best col as the move isn't valid
+            elif (isinstance(score, dict)):
+                scores[col] = self.minMax(score, not isMaxing)[1]
+                score = scores[col]
+
+            
+            if(score != None):
+                if((isMaxing) and score > bestScore):
+                    bestScore = score
+                    colWithBestScore = col
+                elif((not isMaxing) and score < bestScore):
+                    bestScore = score
+                    colWithBestScore = col
+
+        if(colWithBestScore == None):
+            colWithBestScore = availableCols[0]
+            bestScore = scores[colWithBestScore]
+
+        return (colWithBestScore, bestScore)
+        
+    def makeMove(self):
         scores = self.calcMovesScores(self.game)
+        result = self.minMax(scores, True)
+        bestCol = result[0]
+        bestScore = result[1]
+        ### making the move ### 
+        sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+        ##print (scores)
+        print(f"best Col:{bestCol} with score: {bestScore}")
+      
+        moveValid = self.game.makeMove(bestCol, self.symbol)
         
     
             
