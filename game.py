@@ -250,73 +250,63 @@ class minMaxAgent:
         self.opponentSymbol = "O" if self.symbol == "X" else "X" 
         self.maxDepth = maxDepth
     
-    
-    def calcMovesScores(self, game, isSelfTurn = True, currentDepth = 1): ## will return a tree of scores for each possible move
+    def minMax(self, copyOfGameForSelf, copyOfGameForOpp, isMaxing = True, currentDepth = 0):
         
-        
-        if(currentDepth > self.maxDepth):
-            return 0; ## no winning move found at maximum depth so position is deemed neutral
-        
-        scores = {col: 0 for col in range(1, game.length+1)}
-        
-        col = 1
-        for col, score in scores.items():
-            copyOfGameForSelf = copy.deepcopy(game)
-            moveValid = copyOfGameForSelf.makeMove(col, self.symbol)
-            
-            copyOfGameForOpp = copy.deepcopy(game)
-            copyOfGameForOpp.makeMove(col, self.opponentSymbol)
-            if(not moveValid): ## so as not to suggest a move that isn't valid
-                scores[col] = None
-            elif(copyOfGameForSelf.isWinner(self.symbol)):  
-                scores[col] = 10**(self.maxDepth-currentDepth) * (1 if isSelfTurn  else -0.5) # second condition so it will understand what the opponent will do 
-            elif(copyOfGameForOpp.isWinner(self.opponentSymbol)):
-                scores[col] = (10**(self.maxDepth-currentDepth)) * (0.5 if isSelfTurn != 0 else -1) ## 0.5 in both scores is to represent a blocking move 
-            else:
-                gameToPass = copyOfGameForSelf if isSelfTurn else copyOfGameForOpp
-                scores[col]  = self.calcMovesScores(gameToPass, not isSelfTurn, currentDepth + 1)
-            
-        return scores
-        
-    def minMax(self, scores, isMaxing):
-        
-        score = 0 ## remove?
-        bestScore = 0; 
-        colWithBestScore = None; ##  defaulting to first column to avoid error
-        availableCols  = list(range(1, self.game.length + 1))
-        ##print(scores.items())
-        for col, score in scores.items():
-            #print(type(score))
-            if (score == None):
-                availableCols.remove(col) ## removing so it isn't used as best col as the move isn't valid 
-            elif (isinstance(score, dict)):
-                scores[col] = self.minMax(score, not isMaxing)[1]
-                score = scores[col]
+        score = 0 
+        if(currentDepth > 0 and copyOfGameForSelf.isWinner(self.symbol)):  
+            score = 10**(self.maxDepth-currentDepth) * (1 if isMaxing  else -0.5) # second condition so it will understand what the opponent will do
+            return (None, score)
+        elif(currentDepth > 0 and copyOfGameForOpp.isWinner(self.opponentSymbol)):
+            score = (10**(self.maxDepth-currentDepth)) * (0.5 if isMaxing != 0 else -1) ## 0.5 in both scores is to represent a blocking move
+            return (None, score)
+        elif(currentDepth == self.maxDepth):    
+            return (None, 0) # max depth has been reached with no winning move found
+        else:
+            scores = {}
+            availableCols  = list(range(1, self.game.length + 1))
 
-            
-            if(score != None):
-                if((isMaxing) and score > bestScore):
-                    bestScore = score
-                    colWithBestScore = col
-                elif((not isMaxing) and score < bestScore):
-                    bestScore = score
-                    colWithBestScore = col
+            workingGame = copyOfGameForOpp if isMaxing else copyOfGameForSelf ## i.e. opponent has moved self is yet to move when is maxing = true 
 
-        if(colWithBestScore == None):
-            randomIndex = random.randint(0,len(availableCols)-1)
-            colWithBestScore = availableCols[randomIndex] ## adding some random so it wont always play the same game if it thinks moves have equal value 
-            bestScore = scores[colWithBestScore]## Randomise 
+            col = 1
+            for col in range(1, self.game.length + 1):
+                copyOfGameForSelf = copy.deepcopy(workingGame)
+                moveValid = copyOfGameForSelf.makeMove(col, self.symbol)
+                
+                copyOfGameForOpp = copy.deepcopy(workingGame)
+                copyOfGameForOpp.makeMove(col, self.opponentSymbol)
 
-        return (colWithBestScore, bestScore)
+                if(moveValid):
+
+                    bestScore = 0; 
+                    colWithBestScore = None; ##  defaulting to first column to avoid error
+
+                    scores[col] = self.minMax(copyOfGameForSelf,copyOfGameForOpp, not isMaxing, currentDepth+1)[1] ## removing so it isn't used as best col as the move isn't valid 
+                    
+                    if((isMaxing) and scores[col] > bestScore):
+                        bestScore = scores[col]
+                        colWithBestScore = col
+                    elif((not isMaxing) and scores[col] < bestScore):
+                        bestScore = scores[col]
+                        colWithBestScore = col
+                else:
+                    availableCols.remove(col) ## removing so it isn't used as best col as the move isn't valid 
+                col += 1
+
+            if(colWithBestScore == None):
+                randomIndex = random.randint(0,len(availableCols)-1)
+                colWithBestScore = availableCols[randomIndex] ## adding some random so it wont always play the same game if it thinks moves have equal value 
+                bestScore = scores[colWithBestScore]## Randomise
+
+            return (colWithBestScore, bestScore) ## final return 
+
+
         
     def makeMove(self):
-        scores = self.calcMovesScores(self.game)
-        result = self.minMax(scores, True)
+        result = self.minMax(self.game, self.game)
         bestCol = result[0]
         bestScore = result[1]
         ### making the move ### 
         ##sleep(0.5) # added sleep so that the moves are made at a manageable speed for humans to see
-        print (scores)
         ## steps away
         ##steps = math.log(abs(bestScore),5)
         
