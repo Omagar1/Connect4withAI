@@ -262,6 +262,7 @@ class minMaxAgent:
         # finds all legal moves and creates copy to make move
         for col in range(1,self.game.length+1):
             # make move
+            
 
             # evaluates the move (recursive )
             if self.isMoveWinning(game, col, self.symbol):
