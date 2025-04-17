@@ -1,0 +1,12 @@
+if self winning move:
+    if my turn:
+        very good 
+    if not my turn
+        bad
+else if opponent winning move
+    if my turn:
+        good but not as good as win
+    if not my turn
+        very bad
+else
+    meh
