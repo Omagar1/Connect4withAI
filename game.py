@@ -257,10 +257,10 @@ class minMaxAgent:
 
         score = 0 
         if(currentDepth > 0 and copyOfGameForSelf.isWinner(self.symbol)):  
-            score = 10**(self.maxDepth-currentDepth) * (1 if isMaxing  else -0.5) # second condition so it will understand what the opponent will do
+            score = 10**(self.maxDepth-currentDepth) * (1 if isMaxing  else -1)  # if self winning move: if my turn: very good if not my turn: bad
             return (prevCol, score) ## return group 1
         elif(currentDepth > 0 and copyOfGameForOpp.isWinner(self.opponentSymbol)):
-            score = (10**(self.maxDepth-currentDepth)) * (0.5 if isMaxing != 0 else -1) ## 0.5 in both scores is to represent a blocking move
+            score = (10**(self.maxDepth-currentDepth)) * (1 if isMaxing != 0 else -1) # if opponent winning move if my turn: good but not as good as win  if not my turn:very bad
             return (prevCol, score) ## return group 1
         elif(currentDepth == self.maxDepth):
             return (prevCol, 0) # max depth has been reached with no winning move found ## return group 1
@@ -272,27 +272,33 @@ class minMaxAgent:
 
             
             for col in range(1, self.game.length + 1):
+                ## make move
                 copyOfGameForSelf = copy.deepcopy(workingGame)
                 moveValid = copyOfGameForSelf.makeMove(col, self.symbol)
                 
                 copyOfGameForOpp = copy.deepcopy(workingGame)
                 copyOfGameForOpp.makeMove(col, self.opponentSymbol)
-
+                ## evaluate  move
                 if(moveValid):
+                    if(isMaxing):
+                        bestScore = float("-inf"); 
+                        colWithBestScore = None; 
 
-                    bestScore = 0; 
-                    colWithBestScore = None; ##  defaulting to first column to avoid error
+                        score = self.minMax(copyOfGameForSelf,copyOfGameForOpp, col, not isMaxing, currentDepth+1)[1] ## where return group 1 returns; should be one score
+                        
+                        #self.scoreTree[(prevCol, currentDepth)].append((col, currentDepth, scores)) ## adding scores once i have them ## for tree does't effect evaluation 
+                        bestScore = max(bestScore, score)
+                        
+                    else:
+                        bestScore = float("inf"); 
+                        colWithBestScore = None; 
 
-                    scores[col] = self.minMax(copyOfGameForSelf,copyOfGameForOpp, col, not isMaxing, currentDepth+1)[1] ## where return group 1 returns  
-                    
-                    self.scoreTree[(prevCol, currentDepth)].append((col, currentDepth, scores)) ## adding scores once i have them
-                    
-                    if((isMaxing) and scores[col] > bestScore):
-                        bestScore = scores[col]
-                        colWithBestScore = col
-                    elif((not isMaxing) and scores[col] < bestScore):
-                        bestScore = scores[col]
-                        colWithBestScore = col
+                        score = self.minMax(copyOfGameForSelf,copyOfGameForOpp, col, not isMaxing, currentDepth+1)[1] ## where return group 1 returns  
+                        
+                        self.scoreTree[(prevCol, currentDepth)].append((col, currentDepth, scores)) ## adding scores once i have them
+                        bestScore = min(bestScore, score)
+                        ## but how do I get teh columns? 
+        
                 else:
                     availableCols.remove(col) ## removing so it isn't used as best col as the move isn't valid 
                 col += 1
@@ -322,7 +328,7 @@ class minMaxAgent:
         
 
 
-        self.printScoreTree()
+        #self.printScoreTree()
         print(f"best Col:{bestCol} with score: {bestScore}")
       
         moveValid = self.game.makeMove(bestCol, self.symbol)
