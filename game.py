@@ -244,7 +244,7 @@ class SmartAgent:
                 
                         
 class minMaxAgent:
-    def __init__(self, game, symbol, maxDepth = 5):
+    def __init__(self, game, symbol, maxDepth = 2):
         self.game = game
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X" 
@@ -275,10 +275,10 @@ class minMaxAgent:
             else:
                 gameToPass = copyOfGameForSelf if isSelfTurn else copyOfGameForOpp
                 scores[col]  = self.calcMovesScores(gameToPass, not isSelfTurn, currentDepth + 1)
-            
+            ##print(scores) ## test 
         return scores
         
-    def minMax(self, scores, isMaxing):
+    def minMax(self, scores, isMaxing, currentDepth = 1):
         
         score = 0 ## remove?
         bestScore = 0; 
@@ -290,9 +290,9 @@ class minMaxAgent:
             if (score == None):
                 availableCols.remove(col) ## removing so it isn't used as best col as the move isn't valid 
             elif (isinstance(score, dict)):
-                scores[col] = self.minMax(score, not isMaxing)[1]
+                scores[col] = self.minMax(score, not isMaxing, currentDepth+1)[1]
                 score = scores[col]
-
+                
             
             if(score != None):
                 if((isMaxing) and score > bestScore):
@@ -301,6 +301,9 @@ class minMaxAgent:
                 elif((not isMaxing) and score < bestScore):
                     bestScore = score
                     colWithBestScore = col
+            
+            print(f"scores for col: {col} at depth: {currentDepth} Scores: {scores}")
+       
 
         if(colWithBestScore == None):
             randomIndex = random.randint(0,len(availableCols)-1)
