@@ -214,7 +214,7 @@ class SmartAgent:
         return False
         
     def makeMove(self):
-         ### test ### 
+        ### test ### 
         ##scores = self.minMaxAgent.calcMovesScores(self.game)
         ##print(scores)
         ##print(type(scores[1]))
@@ -244,30 +244,33 @@ class SmartAgent:
                 
                         
 class minMaxAgent:
-    def __init__(self, game, symbol, maxDepth = 5):
+    def __init__(self, game, symbol, maxDepth = 3):
         self.game = game
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X" 
         self.maxDepth = maxDepth
+        self.scoreTree = {}
     
-    def minMax(self, copyOfGameForSelf, copyOfGameForOpp, isMaxing = True, currentDepth = 0):
-        
+    def minMax(self, copyOfGameForSelf, copyOfGameForOpp, prevCol = "Start", isMaxing = True, currentDepth = 0):
+        if(currentDepth != self.maxDepth):
+            self.scoreTree.setdefault((prevCol, currentDepth), []) ## initialising so in right order 
+
         score = 0 
         if(currentDepth > 0 and copyOfGameForSelf.isWinner(self.symbol)):  
             score = 10**(self.maxDepth-currentDepth) * (1 if isMaxing  else -0.5) # second condition so it will understand what the opponent will do
-            return (None, score)
+            return (prevCol, score) ## return group 1
         elif(currentDepth > 0 and copyOfGameForOpp.isWinner(self.opponentSymbol)):
             score = (10**(self.maxDepth-currentDepth)) * (0.5 if isMaxing != 0 else -1) ## 0.5 in both scores is to represent a blocking move
-            return (None, score)
-        elif(currentDepth == self.maxDepth):    
-            return (None, 0) # max depth has been reached with no winning move found
+            return (prevCol, score) ## return group 1
+        elif(currentDepth == self.maxDepth):
+            return (prevCol, 0) # max depth has been reached with no winning move found ## return group 1
         else:
             scores = {}
             availableCols  = list(range(1, self.game.length + 1))
 
             workingGame = copyOfGameForOpp if isMaxing else copyOfGameForSelf ## i.e. opponent has moved self is yet to move when is maxing = true 
 
-            col = 1
+            
             for col in range(1, self.game.length + 1):
                 copyOfGameForSelf = copy.deepcopy(workingGame)
                 moveValid = copyOfGameForSelf.makeMove(col, self.symbol)
@@ -280,7 +283,9 @@ class minMaxAgent:
                     bestScore = 0; 
                     colWithBestScore = None; ##  defaulting to first column to avoid error
 
-                    scores[col] = self.minMax(copyOfGameForSelf,copyOfGameForOpp, not isMaxing, currentDepth+1)[1] ## removing so it isn't used as best col as the move isn't valid 
+                    scores[col] = self.minMax(copyOfGameForSelf,copyOfGameForOpp, col, not isMaxing, currentDepth+1)[1] ## where return group 1 returns  
+                    
+                    self.scoreTree[(prevCol, currentDepth)].append((col, currentDepth, scores)) ## adding scores once i have them
                     
                     if((isMaxing) and scores[col] > bestScore):
                         bestScore = scores[col]
@@ -298,7 +303,12 @@ class minMaxAgent:
                 bestScore = scores[colWithBestScore]## Randomise
 
             return (colWithBestScore, bestScore) ## final return 
-
+        
+    def printScoreTree(self):
+        for prevCol, prevDepth in self.scoreTree:
+            print(f"Column {prevCol} at depth {prevDepth}:")
+            for colData in self.scoreTree[(prevCol,prevDepth)]:
+                print (f"   Column {colData[0]} depth: {colData[1]} Has scores: {colData[2]}")
 
         
     def makeMove(self):
@@ -312,7 +322,7 @@ class minMaxAgent:
         
 
 
-
+        self.printScoreTree()
         print(f"best Col:{bestCol} with score: {bestScore}")
       
         moveValid = self.game.makeMove(bestCol, self.symbol)
