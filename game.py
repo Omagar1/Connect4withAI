@@ -26,7 +26,7 @@ class Connect4Game:
     def __init__(self, length = 7, hight = 6):
         self.length = length
         self.hight = hight
-        self.MLModelPath = "Models\\NeuaralNetwork_Connect4.h5"
+        self.MLModelPath = "Models\\NeuaralNetworkLR_Connect4.h5"
     
     def startGame(self):
         # creating/ resetting board
@@ -385,20 +385,19 @@ class MachineLearningAgent:
 
     def makeMove(self):
         ## evaluated current position
-        formattedCurrentGame = self.formatBoard(self.game.board)
-        result = self.model.predict(formattedCurrentGame)
-        index = np.argmax(result)
-        outcome = self.oneHotDecode(result, self.classes)
-        confidence = round(result[0][index],3) ## sees how good the move is
-        print((outcome, confidence ))
+        # formattedCurrentGame = self.formatBoard(self.game.board)
+        # result = self.model.predict(formattedCurrentGame)
+        # index = np.argmax(result)
+        # outcome = self.oneHotDecode(result, self.classes)
+        # confidence = round(result[0][index],3) ## sees how good the move is
+        # print((outcome, confidence ))
 
 
         sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
         # finding what move is the best move according to ML agent 
-        bestConfidence = 0
+        bestResult = -1
         bestCol = None ## val is None to avoid playing a move that is invalid
-        bestOutCome = None
-        moveResults = [] 
+        moveResults = []
         col = 1
         for col in range(1,self.game.length+1):
             copyOfGame = copy.deepcopy(self.game) 
@@ -406,28 +405,17 @@ class MachineLearningAgent:
             if(validMove != False):
                 formattedCopyOfGame = self.formatBoard(copyOfGame.board)
 
-                result = self.model.predict(formattedCopyOfGame)
-                index = np.argmax(result)
-                outcome = self.oneHotDecode(result, self.classes)
-                confidence = round(result[0][index],3) ## sees how good the move is
-                moveResults.append((col, outcome, confidence ))
+                result = self.model.predict(formattedCopyOfGame)[0]
+                moveResults.append((col, result ))
                 # deciding best move 
-                if(confidence > bestConfidence and outcome == "win"):
-                    bestConfidence = confidence
+                if(result > bestResult ):
+                    bestResult = result
                     bestCol = col
-                    bestOutCome = outcome
-                elif(confidence > bestConfidence and bestOutCome != "win" and outcome =="draw"):
-                    bestConfidence = confidence
-                    bestCol = col
-                    bestOutCome = outcome
-                elif(confidence > bestConfidence):
-                    bestConfidence = confidence
-                    bestCol = col
-                    bestOutCome = outcome
+                
 
         # making the move on the real board 
         print(moveResults) # test 
-        print(f"ML Agent think the best Col is: {bestCol} with confidence of: {bestConfidence} for an outcome of a {bestOutCome}")
+        print(f"ML Agent think the best Col is: {bestCol} with confidence of: {result} ")
         self.game.makeMove(bestCol, self.symbol)
         
         
