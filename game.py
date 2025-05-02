@@ -2,6 +2,15 @@ import random
 import math
 from time import sleep
 import copy
+import os
+
+# machine learning stuff
+import pandas as pd
+import numpy as np
+from tensorflow.keras.models import load_model
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Input
+from tensorflow.keras.optimizers import Adam
 
 class Connect4Game:
     
@@ -11,11 +20,13 @@ class Connect4Game:
     length = 0
     hight = 0 
     
+    
     # --- methods ---
     
     def __init__(self, length = 7, hight = 6):
         self.length = length
         self.hight = hight
+        self.MLModelPath = "Models\\NeuaralNetwork_Connect4.h5"
     
     def startGame(self):
         # creating/ resetting board
@@ -78,7 +89,7 @@ class Connect4Game:
         self.columnTokenCounter  = [0 for _ in range(self.length)]
     
     def choosePlayer(self, playerNum):
-        availablePlayers = ["Human", "Random", "Smart", "Min-Max"]
+        availablePlayers = ["Human", "Random", "Smart", "Min-Max", "Machine Learning"]
         print(f"choose from the following Agents for player {playerNum}")
         i = 1
         for player in availablePlayers:
@@ -96,6 +107,8 @@ class Connect4Game:
                     return SmartAgent(self, "X" if playerNum ==1 else "O")
                 case "4":
                     return minMaxAgent(self, "X" if playerNum ==1 else "O")
+                case "5":
+                    return MachineLearningAgent(self, "X" if playerNum ==1 else "O", self.MLModelPath)
                 case _:
                     print("invalid input Try again")     
             
@@ -329,6 +342,94 @@ class minMaxAgent:
         print(f"best Col:{bestCol} with score: {bestScore}")
       
         moveValid = self.game.makeMove(bestCol, self.symbol)
+
+
+class MachineLearningAgent:
+    def __init__(self, game, symbol, modelPath):
+        self.game = game
+        self.symbol = symbol
+        self.opponentSymbol = "O" if self.symbol == "X" else "X"
+        print(os.path.exists(modelPath)) ## test 
+        self.model = load_model(modelPath) 
+        self.classes = ['draw', 'loss', 'win']
+        self.cellMap = {'X': 1, 'O': 2, ' ': 0}
+
+    # def oneHotEncode(label, classes):
+    #     oneHot = np.zeros(len(classes))
+    #     index = classes.index(label)  # Find the index of the label
+    #     oneHot[index] = 1  # Set the corresponding index to 1
+    #     return oneHot
+
+    def oneHotDecode(self, oneHot, classes):
+        index = np.argmax(oneHot)
+        return classes[index]
+    
+    def formatBoard(self, board):
+        # get board as one list in format ML model expects
+        encodedBoard = []
+        for row in board:
+            encodedBoard+=row
+        
+        # changing cellMap so 1 is always self an 2 is always opponent 
+        if self.symbol == 'O':
+            self.cellMap = {'X': 2, 'O': 1, ' ': 0}
+        else: 
+            self.cellMap = {'X': 1, 'O': 2, ' ': 0}
+
+        # changing symbols to numbers so ML model can understand  
+        encodedBoard = [self.cellMap.get(x, x) for x in encodedBoard]
+        #  reshaping in numpy
+        encodedBoard = np.array(encodedBoard).reshape(1, 42)
+
+        return encodedBoard
+
+    def makeMove(self):
+        ## evaluated current position
+        formattedCurrentGame = self.formatBoard(self.game.board)
+        result = self.model.predict(formattedCurrentGame)
+        index = np.argmax(result)
+        outcome = self.oneHotDecode(result, self.classes)
+        confidence = round(result[0][index],3) ## sees how good the move is
+        print((outcome, confidence ))
+
+
+        sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+        # finding what move is the best move according to ML agent 
+        bestConfidence = 0
+        bestCol = None ## val is None to avoid playing a move that is invalid
+        bestOutCome = None
+        moveResults = [] 
+        col = 1
+        for col in range(1,self.game.length+1):
+            copyOfGame = copy.deepcopy(self.game) 
+            validMove = copyOfGame.makeMove(col, self.symbol) ## makes the move 
+            if(validMove != False):
+                formattedCopyOfGame = self.formatBoard(copyOfGame.board)
+
+                result = self.model.predict(formattedCopyOfGame)
+                index = np.argmax(result)
+                outcome = self.oneHotDecode(result, self.classes)
+                confidence = round(result[0][index],3) ## sees how good the move is
+                moveResults.append((col, outcome, confidence ))
+                # deciding best move 
+                if(confidence > bestConfidence and outcome == "win"):
+                    bestConfidence = confidence
+                    bestCol = col
+                    bestOutCome = outcome
+                elif(confidence > bestConfidence and bestOutCome != "win" and outcome =="draw"):
+                    bestConfidence = confidence
+                    bestCol = col
+                    bestOutCome = outcome
+                elif(confidence > bestConfidence):
+                    bestConfidence = confidence
+                    bestCol = col
+                    bestOutCome = outcome
+
+        # making the move on the real board 
+        print(moveResults) # test 
+        print(f"ML Agent think the best Col is: {bestCol} with confidence of: {bestConfidence} for an outcome of a {bestOutCome}")
+        self.game.makeMove(bestCol, self.symbol)
+        
         
     
             
