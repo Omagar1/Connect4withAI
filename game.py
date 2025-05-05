@@ -2,6 +2,16 @@ import random
 import math
 from time import sleep
 import copy
+import os
+import csv
+
+# machine learning stuff
+import pandas as pd
+import numpy as np
+from tensorflow.keras.models import load_model
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Input
+from tensorflow.keras.optimizers import Adam
 
 class Connect4Game:
     
@@ -11,11 +21,25 @@ class Connect4Game:
     length = 0
     hight = 0 
     
+    
     # --- methods ---
     
     def __init__(self, length = 7, hight = 6):
         self.length = length
         self.hight = hight
+        self.MLModelPath = "Models\\NeuaralNetworkLR_Connect4.h5"
+        self.gamesStorePath = "Data\\games.csv"
+    # ---file methods---
+    def getLastID(self, gamesFilePath):
+        if not os.path.exists(gamesFilePath):
+            return 0 # so first id is 1  
+
+        with open(gamesFilePath, "r") as f:
+            reader = list(csv.reader(f))
+            if len(reader) < 2:  # Only header or empty
+                return 0 # so first id is 1 
+            lastRow = reader[-1]
+            return int(lastRow[0])  # gameID
     
     def startGame(self):
         # creating/ resetting board
@@ -32,24 +56,47 @@ class Connect4Game:
         
         # start the game
         print("---- Connect 4 Game! ----")
-        
+        moves = []
+        endState = None
         playerWon = False
         round = 1
         while(playerWon != True and round < self.length * self.hight): # second condition is to check is the board is not full
             print(f" ---- Player { 1 if round % 2 == 1 else 2}'s Move ----")
             player = self.players[(round%2)-1]
             self.printBoard()
-            player.makeMove()
+            chosenCol = player.makeMove()
+            moves.append(chosenCol) # not storing player symbol as it can be worked out by move count
             playerWon = self.isWinner(player.symbol)
             round +=1
             
-        #self.printBoard() # why?
         if(playerWon):
             print(f" ---- Player {(round%2 + 1)} won! ----")
+            endState = "win" if round%2 + 1 == 1 else "loss" # endstate in terms of player 1 
         else:
             print("---- No available moves its a Draw! ----")
+            endState = "loss"
         
         self.printBoard() # end state 
+        # saving the game
+        gameID = self.getLastID(self.gamesStorePath)+1
+        player1Type = self.players[0].name
+        player2Type = self.players[1].name
+        gameRecord = [gameID,player1Type,player2Type,moves,endState]
+
+        # storing game to file
+        file_exists = os.path.exists(self.gamesStorePath)
+
+        with open(self.gamesStorePath, "a", newline="") as file:
+            writer = csv.writer(file)
+            
+            if not file_exists:
+                writer.writerow(["gameID", "player1", "player2", "moves", "endState"])
+            
+            writer.writerow(gameRecord)
+
+
+
+
         print("Would you Like to play Again? (Y/N)")
         
         playAgain = True
@@ -78,7 +125,7 @@ class Connect4Game:
         self.columnTokenCounter  = [0 for _ in range(self.length)]
     
     def choosePlayer(self, playerNum):
-        availablePlayers = ["Human", "Random", "Smart", "Min-Max"]
+        availablePlayers = ["Human", "Random", "Smart", "Min-Max", "Machine Learning"]
         print(f"choose from the following Agents for player {playerNum}")
         i = 1
         for player in availablePlayers:
@@ -96,6 +143,8 @@ class Connect4Game:
                     return SmartAgent(self, "X" if playerNum ==1 else "O")
                 case "4":
                     return minMaxAgent(self, "X" if playerNum ==1 else "O")
+                case "5":
+                    return MachineLearningAgent(self, "X" if playerNum ==1 else "O", self.MLModelPath)
                 case _:
                     print("invalid input Try again")     
             
@@ -158,11 +207,33 @@ class Connect4Game:
             column += 1
         return False
 
+
+
+
+
+
 # --- agents --- 
+class agent:
+    def __init__(self):
+        self.agentDataPath = "Data\\agentData"
+        self.name = "agent"
+    
+    def updateData(self, outcome):
+        with open("games.csv", "r+") as file:
+            reader = csv.DictReader(file)
+            modifiedRow = []
+            # finding the row
+            for row in reader:
+                if row["agent"] == self.name:
+                    modifiedRow = row
+            ## changing the row
+            modifiedRow[outcome] = int(modifiedRow[outcome]) + 1
+
 class HumanPlayer:
     def __init__(self, game, symbol):
         self.game = game
         self.symbol = symbol
+        self.name = "HumanPlayer"
     
     def makeMove(self):
         moveValid = False
@@ -176,6 +247,8 @@ class HumanPlayer:
                     moveValid = self.game.makeMove(chosenCol, self.symbol)
                     if (moveValid == False):
                         print("row is full! ")
+                    else:
+                        return chosenCol
             except ValueError:
                 print(f"Please input a valid  Number! ")
 
@@ -183,6 +256,7 @@ class RandomAgent:
     def __init__(self, game, symbol):
         self.game = game
         self.symbol = symbol
+        self.name = "RandomAgent"
         
     def makeMove(self):
         moveValid = False
@@ -190,12 +264,14 @@ class RandomAgent:
             chosenCol = random.randint(1,self.game.length)
             sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
             moveValid = self.game.makeMove(chosenCol, self.symbol)
+        return chosenCol
 
 class SmartAgent:
     def __init__(self, game, symbol):
         self.game = game
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X"
+        self.name = "SmartAgent"
         
         ### test #### 
         ##self.minMaxAgent = minMaxAgent(self.game, self.symbol, 2)
@@ -226,20 +302,18 @@ class SmartAgent:
         winningMove = self.checkForWinningMove(self.symbol)
         if(winningMove != False):
             moveValid = self.game.makeMove(winningMove, self.symbol)
-            return False
+            return winningMove
         # 2) check if winning move for opponent 
         blockingMove = self.checkForWinningMove(self.opponentSymbol)
         if(blockingMove != False):
             moveValid = self.game.makeMove(blockingMove, self.symbol)
-            return False
+            return blockingMove
         
         # 3) no winning or blocking move found revert to random move
         while (moveValid != True):
             chosenCol = random.randint(1,self.game.length)
             moveValid = self.game.makeMove(chosenCol, self.symbol)
-
-        
-        return False
+        return chosenCol
     
                 
                         
@@ -249,7 +323,7 @@ class minMaxAgent:
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X" 
         self.maxDepth = maxDepth
-    
+        self.name = "minMaxAgent"
     
     def calcMovesScores(self, game, isSelfTurn = True, currentDepth = 1): ## will return a tree of scores for each possible move
         
@@ -329,6 +403,84 @@ class minMaxAgent:
         print(f"best Col:{bestCol} with score: {bestScore}")
       
         moveValid = self.game.makeMove(bestCol, self.symbol)
+        return bestCol
+
+
+class MachineLearningAgent:
+    def __init__(self, game, symbol, modelPath):
+        self.game = game
+        self.symbol = symbol
+        self.opponentSymbol = "O" if self.symbol == "X" else "X"
+        print(os.path.exists(modelPath)) ## test 
+        self.model = load_model(modelPath) 
+        self.classes = ['draw', 'loss', 'win']
+        self.cellMap = {'X': 1, 'O': 2, ' ': 0}
+        self.name = "MachineLearningAgent"
+
+    # def oneHotEncode(label, classes):
+    #     oneHot = np.zeros(len(classes))
+    #     index = classes.index(label)  # Find the index of the label
+    #     oneHot[index] = 1  # Set the corresponding index to 1
+    #     return oneHot
+
+    def oneHotDecode(self, oneHot, classes):
+        index = np.argmax(oneHot)
+        return classes[index]
+    
+    def formatBoard(self, board):
+        # get board as one list in format ML model expects
+        encodedBoard = []
+        for row in board:
+            encodedBoard+=row
+        
+        # changing cellMap so 1 is always self an 2 is always opponent 
+        if self.symbol == 'O':
+            self.cellMap = {'X': -1, 'O': 1, ' ': 0}
+        else: 
+            self.cellMap = {'X': 1, 'O': -1, ' ': 0}
+
+        # changing symbols to numbers so ML model can understand  
+        encodedBoard = [self.cellMap.get(x, x) for x in encodedBoard]
+        #  reshaping in numpy
+        encodedBoard = np.array(encodedBoard).reshape(1, 42)
+
+        return encodedBoard
+
+    def makeMove(self):
+        ## evaluated current position
+        # formattedCurrentGame = self.formatBoard(self.game.board)
+        # result = self.model.predict(formattedCurrentGame)
+        # index = np.argmax(result)
+        # outcome = self.oneHotDecode(result, self.classes)
+        # confidence = round(result[0][index],3) ## sees how good the move is
+        # print((outcome, confidence ))
+
+
+        sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+        # finding what move is the best move according to ML agent 
+        bestResult = -1
+        bestCol = None ## val is None to avoid playing a move that is invalid
+        moveResults = []
+        col = 1
+        for col in range(1,self.game.length+1):
+            copyOfGame = copy.deepcopy(self.game) 
+            validMove = copyOfGame.makeMove(col, self.symbol) ## makes the move 
+            if(validMove != False):
+                formattedCopyOfGame = self.formatBoard(copyOfGame.board)
+
+                result = self.model.predict(formattedCopyOfGame)[0]
+                moveResults.append((col, result ))
+                # deciding best move 
+                if(result > bestResult ):
+                    bestResult = result
+                    bestCol = col
+                
+
+        # making the move on the real board 
+        print(moveResults) # test 
+        print(f"ML Agent think the best Col is: {bestCol} with confidence of: {result} ")
+        self.game.makeMove(bestCol, self.symbol)
+        return bestCol
         
     
             
