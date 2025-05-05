@@ -1,0 +1,3 @@
+gameID,player1,player2,moves,endState
+1,RandomAgent,SmartAgent,"[5, 4, 4, 3, 2, 2, 2, 3, 4, 1, 6, 3, 1, 3]",loss
+2,RandomAgent,SmartAgent,"[5, 1, 4, 3, 2, 3, 1, 7, 4, 1, 3, 3, 6, 6, 5, 5, 7, 7, 3, 3, 1, 6, 6, 4]",loss
