@@ -372,9 +372,9 @@ class MachineLearningAgent:
         
         # changing cellMap so 1 is always self an 2 is always opponent 
         if self.symbol == 'O':
-            self.cellMap = {'X': 2, 'O': 1, ' ': 0}
+            self.cellMap = {'X': -1, 'O': 1, ' ': 0}
         else: 
-            self.cellMap = {'X': 1, 'O': 2, ' ': 0}
+            self.cellMap = {'X': 1, 'O': -1, ' ': 0}
 
         # changing symbols to numbers so ML model can understand  
         encodedBoard = [self.cellMap.get(x, x) for x in encodedBoard]
