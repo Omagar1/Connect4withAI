@@ -20,7 +20,7 @@ class Connect4Game:
     columnTokenCounter = []
     length = 0
     hight = 0 
-    
+    availablePlayers = ["Human", "Random", "Smart", "Min-Max", "Machine Learning"]
     
     # --- methods ---
     
@@ -74,7 +74,7 @@ class Connect4Game:
             endState = "win" if round%2 + 1 == 1 else "loss" # endstate in terms of player 1 
         else:
             print("---- No available moves its a Draw! ----")
-            endState = "loss"
+            endState = "draw"
         
         self.printBoard() # end state 
         # saving the game
@@ -93,7 +93,15 @@ class Connect4Game:
                 writer.writerow(["gameID", "player1", "player2", "moves", "endState"])
             
             writer.writerow(gameRecord)
-
+        #storing result for agents:
+        self.players[0].updateData(endState)
+        if (endState == "win"):
+            outcome = "loss"
+        if (endState == "loss"):
+            outcome = "win"
+        else:
+            outcome = endState
+        self.players[1].updateData(outcome)
 
 
 
@@ -110,7 +118,54 @@ class Connect4Game:
                     print("exiting...")
                     return playAgain
                 case _:
-                    print("invalid input Try again")  
+                    print("invalid input Try again") 
+
+    def startGameForStats(self, players): # for benchmarking hence no output 
+        self.players = players
+        # creating/ resetting board
+        self.resetBoard()
+        # start the game
+        moves = []
+        endState = None
+        playerWon = False
+        round = 1
+        while(playerWon != True and round < self.length * self.hight): # second condition is to check is the board is not full
+            player = self.players[(round%2)-1]
+            chosenCol = player.makeMove()
+            moves.append(chosenCol) # not storing player symbol as it can be worked out by move count
+            playerWon = self.isWinner(player.symbol)
+            round +=1
+            
+        if(playerWon):
+            endState = "win" if round%2 + 1 == 1 else "loss" # endstate in terms of player 1 
+        else:
+            endState = "draw"
+        
+        # saving the game
+        gameID = self.getLastID(self.gamesStorePath)+1
+        player1Type = self.players[0].name
+        player2Type = self.players[1].name
+        gameRecord = [gameID,player1Type,player2Type,moves,endState]
+
+        # storing game to file
+        file_exists = os.path.exists(self.gamesStorePath)
+
+        with open(self.gamesStorePath, "a", newline="") as file:
+            writer = csv.writer(file)
+            
+            if not file_exists:
+                writer.writerow(["gameID", "player1", "player2", "moves", "endState"])
+            
+            writer.writerow(gameRecord)
+        #storing result for agents:
+        self.players[0].updateData(endState)
+        if (endState == "win"):
+            outcome = "loss"
+        if (endState == "loss"):
+            outcome = "win"
+        else:
+            outcome = endState
+        self.players[1].updateData(outcome)
         
     def resetBoard(self):
         self.board = []
@@ -125,30 +180,35 @@ class Connect4Game:
         self.columnTokenCounter  = [0 for _ in range(self.length)]
     
     def choosePlayer(self, playerNum):
-        availablePlayers = ["Human", "Random", "Smart", "Min-Max", "Machine Learning"]
-        print(f"choose from the following Agents for player {playerNum}")
+        
+        print(f"choose from the following Agents for player {playerNum} with win loss and draw rates") 
         i = 1
-        for player in availablePlayers:
-            print(f"{i}) " +player)
+        for player in self.availablePlayers: # availablePlayers = ["Human", "Random", "Smart", "Min-Max", "Machine Learning"]
+            playerAgent = self.getAgent(player, 1)
+            agentStats = playerAgent.getAndFormatAgentStats()
+            print(f"{i}) " +player+ "Stats:" +agentStats )
             i += 1
 
         while(True):
             userInput = input(": " )
-            match userInput:
-                case "1":
+            playerAgent = self.getAgent(userInput, playerNum)
+            if not playerAgent:
+                print("invalid input Try again")
+        
+    def getAgent(self, agentChoice, playerNum, addDelay=True ):    
+        match agentChoice:
+                case "1" | "Human":
                     return HumanPlayer(self, "X" if playerNum ==1 else "O")
-                case "2":
-                    return RandomAgent(self, "X" if playerNum ==1 else "O")
-                case "3":
-                    return SmartAgent(self, "X" if playerNum ==1 else "O")
-                case "4":
-                    return minMaxAgent(self, "X" if playerNum ==1 else "O")
-                case "5":
+                case "2"| "Random":
+                    return RandomAgent(self, "X" if playerNum ==1 else "O",addDelay=addDelay)
+                case "3" | "Smart":
+                    return SmartAgent(self, "X" if playerNum ==1 else "O",addDelay=addDelay)
+                case "4"| "Min-Max":
+                    return minMaxAgent(self, "X" if playerNum ==1 else "O",addDelay=addDelay)
+                case "5"| "Machine Learning":
                     return MachineLearningAgent(self, "X" if playerNum ==1 else "O", self.MLModelPath)
                 case _:
-                    print("invalid input Try again")     
-            
-        
+                     return False
 
     
                 
@@ -206,7 +266,23 @@ class Connect4Game:
                 row -=1
             column += 1
         return False
+    
+    def benchMark(self, numGamesPerAgent = 500): # to get win rates of agents 
+        agentsToTest = self.availablePlayers
+        agentsToTest.remove("Human")
+        gamesPerOpponent = numGamesPerAgent // len(agentsToTest)
+        for agent1 in agentsToTest:
+            for agent2 in agentsToTest:
+                if(agent1 != agent2):
+                    i = 1
+                    for i in range(gamesPerOpponent):
+                        players = []
+                        players.append(self.getAgent(agent1,1,False))
+                        players.append(self.getAgent(agent2,2,False))
 
+                        self.startGameForStats(players)
+                
+                
 
 
 
@@ -219,17 +295,66 @@ class agent:
         self.name = "agent"
     
     def updateData(self, outcome):
-        with open("games.csv", "r+") as file:
-            reader = csv.DictReader(file)
-            modifiedRow = []
-            # finding the row
-            for row in reader:
-                if row["agent"] == self.name:
-                    modifiedRow = row
-            ## changing the row
-            modifiedRow[outcome] = int(modifiedRow[outcome]) + 1
+        fieldnames = ["agent", "winNum", "lossNum", "drawNum"]
+        updated = False
+        modifiedRow = {"agent": self.name, "winNum": "0", "lossNum": "0", "drawNum": "0"}
+        filePath = "Data\\agentStats.csv"
 
-class HumanPlayer:
+        if not os.path.exists(filePath): # creating a file if it doesn't exist
+            with open(filePath, "w", newline="") as file:
+                writer = csv.DictWriter(file, fieldnames=fieldnames)
+                writer.writeheader()
+
+        with open(filePath, "r+", newline="") as file:
+            reader = csv.DictReader(file)
+            rows = list(reader)
+
+            # Find and update the row
+            for row in rows:
+                if row["agent"] == self.name:
+                    row[outcome + "Num"] = str(int(row[outcome + "Num"]) + 1)
+                    updated = True
+                    break
+
+            # If agent not found, add new row
+            if not updated:
+                modifiedRow[outcome + "Num"] = "1"
+                rows.append(modifiedRow)
+
+            # Move to beginning and overwrite file
+            file.seek(0)
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+            file.truncate()  # clear remaining old content
+
+    def getAndFormatAgentStats(self):
+        filePath = "Data\\agentStats.csv"
+
+        if  os.path.exists(filePath): 
+            with open(filePath, "r", newline="") as file:
+                reader = csv.DictReader(file)
+                rows = list(reader)
+                for row in rows:
+                    if row["agent"] == self.name:
+                        totalGames = int(row["winNum"]) + int(row["lossNum"])  +int(row["drawNum"])
+                        winRate = int(row["winNum"])/totalGames *100
+                        lossRate = int(row["lossNum"])/totalGames * 100
+                        DrawRate = int(row["drawNum"])/totalGames * 100
+                        returnStr =   returnStr = (
+                                f"Win rate: {winRate:.3f}  "
+                                f"Loss rate: {lossRate:.3f}  "
+                                f"Draw rate: {DrawRate:.3f}  "
+                                f"out of {totalGames} games"
+                            )
+                        return returnStr
+
+            return "No Data"
+        else:
+            return "No Data"
+
+
+class HumanPlayer(agent):
     def __init__(self, game, symbol):
         self.game = game
         self.symbol = symbol
@@ -250,28 +375,31 @@ class HumanPlayer:
                     else:
                         return chosenCol
             except ValueError:
-                print(f"Please input a valid  Number! ")
+                print(f"Please input a valid Number! ")
 
-class RandomAgent:
-    def __init__(self, game, symbol):
+class RandomAgent(agent):
+    def __init__(self, game, symbol, addDelay=True):
         self.game = game
         self.symbol = symbol
         self.name = "RandomAgent"
+        self.addDelay = addDelay
         
     def makeMove(self):
         moveValid = False
+        if self.addDelay:
+                sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
         while (moveValid != True):
             chosenCol = random.randint(1,self.game.length)
-            sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
             moveValid = self.game.makeMove(chosenCol, self.symbol)
         return chosenCol
 
-class SmartAgent:
-    def __init__(self, game, symbol):
+class SmartAgent(agent):
+    def __init__(self, game, symbol, addDelay=True):
         self.game = game
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X"
         self.name = "SmartAgent"
+        self.addDelay = addDelay
         
         ### test #### 
         ##self.minMaxAgent = minMaxAgent(self.game, self.symbol, 2)
@@ -296,7 +424,9 @@ class SmartAgent:
         ##print(type(scores[1]))
 
         moveValid = False
-        sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+
+        if self.addDelay:
+            sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
         
         # 1) check if there is a winning move for self 
         winningMove = self.checkForWinningMove(self.symbol)
@@ -317,13 +447,14 @@ class SmartAgent:
     
                 
                         
-class minMaxAgent:
-    def __init__(self, game, symbol, maxDepth = 2):
+class minMaxAgent(agent):
+    def __init__(self, game, symbol, maxDepth = 2, addDelay=True):
         self.game = game
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X" 
         self.maxDepth = maxDepth
         self.name = "minMaxAgent"
+        self.addDelay = addDelay
     
     def calcMovesScores(self, game, isSelfTurn = True, currentDepth = 1): ## will return a tree of scores for each possible move
         
@@ -375,8 +506,8 @@ class minMaxAgent:
                 elif((not isMaxing) and score < bestScore):
                     bestScore = score
                     colWithBestScore = col
-            
-            print(f"scores for col: {col} at depth: {currentDepth} Scores: {scores}")
+            if not self.addDelay:
+                print(f"scores for col: {col} at depth: {currentDepth} Scores: {scores}")
        
 
         if(colWithBestScore == None):
@@ -406,8 +537,8 @@ class minMaxAgent:
         return bestCol
 
 
-class MachineLearningAgent:
-    def __init__(self, game, symbol, modelPath):
+class MachineLearningAgent(agent):
+    def __init__(self, game, symbol, modelPath, addDelay=True):
         self.game = game
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X"
@@ -416,6 +547,7 @@ class MachineLearningAgent:
         self.classes = ['draw', 'loss', 'win']
         self.cellMap = {'X': 1, 'O': 2, ' ': 0}
         self.name = "MachineLearningAgent"
+        self.addDelay = addDelay
 
     # def oneHotEncode(label, classes):
     #     oneHot = np.zeros(len(classes))
@@ -456,7 +588,9 @@ class MachineLearningAgent:
         # print((outcome, confidence ))
 
 
-        sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+        if self.addDelay:
+            sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+
         # finding what move is the best move according to ML agent 
         bestResult = -1
         bestCol = None ## val is None to avoid playing a move that is invalid
@@ -477,8 +611,9 @@ class MachineLearningAgent:
                 
 
         # making the move on the real board 
-        print(moveResults) # test 
-        print(f"ML Agent think the best Col is: {bestCol} with confidence of: {result} ")
+        if not self.addDelay:
+            print(moveResults) # test 
+            print(f"ML Agent think the best Col is: {bestCol} with confidence of: {result} ")
         self.game.makeMove(bestCol, self.symbol)
         return bestCol
         
@@ -488,6 +623,7 @@ class MachineLearningAgent:
 
 # test 
 g1 = Connect4Game()
+#g1.benchMark()
 g1.startGame()
 
 # p1 = HumanPlayer(g1,"X")
