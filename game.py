@@ -194,6 +194,9 @@ class Connect4Game:
             playerAgent = self.getAgent(userInput, playerNum)
             if not playerAgent:
                 print("invalid input Try again")
+            else:
+                return playerAgent
+            
         
     def getAgent(self, agentChoice, playerNum, addDelay=True ):    
         match agentChoice:
@@ -542,7 +545,7 @@ class MachineLearningAgent(agent):
         self.game = game
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X"
-        print(os.path.exists(modelPath)) ## test 
+        #print(os.path.exists(modelPath)) ## test 
         self.model = load_model(modelPath) 
         self.classes = ['draw', 'loss', 'win']
         self.cellMap = {'X': 1, 'O': 2, ' ': 0}
@@ -611,7 +614,7 @@ class MachineLearningAgent(agent):
                 
 
         # making the move on the real board 
-        if not self.addDelay:
+        if self.addDelay:
             print(moveResults) # test 
             print(f"ML Agent think the best Col is: {bestCol} with confidence of: {result} ")
         self.game.makeMove(bestCol, self.symbol)
