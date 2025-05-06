@@ -1,3 +1,360 @@
 gameID,player1,player2,moves,endState
-1,RandomAgent,SmartAgent,"[5, 4, 4, 3, 2, 2, 2, 3, 4, 1, 6, 3, 1, 3]",loss
-2,RandomAgent,SmartAgent,"[5, 1, 4, 3, 2, 3, 1, 7, 4, 1, 3, 3, 6, 6, 5, 5, 7, 7, 3, 3, 1, 6, 6, 4]",loss
+1,RandomAgent,SmartAgent,"[6, 1, 4, 1, 7, 5, 1, 6, 2, 4, 2, 7, 2, 5]",loss
+2,RandomAgent,SmartAgent,"[6, 5, 7, 5, 5, 1, 2, 5, 7, 4, 7, 3, 6, 5, 7]",win
+3,RandomAgent,SmartAgent,"[4, 4, 3, 6, 1, 2, 6, 4, 2, 2, 5, 1, 5, 4, 7, 4]",loss
+4,RandomAgent,SmartAgent,"[2, 1, 5, 4, 7, 2, 2, 7, 5, 3, 7, 6, 4, 4, 4, 4, 2, 1, 2, 2, 5, 5, 4, 6, 1, 6]",loss
+5,RandomAgent,SmartAgent,"[1, 7, 1, 3, 6, 3, 7, 1, 6, 2, 6, 6, 7, 4, 7, 5]",loss
+6,RandomAgent,SmartAgent,"[6, 1, 3, 4, 4, 4, 5, 7, 5, 3, 2, 5, 4, 1, 5, 4, 2, 2, 3, 3]",loss
+7,RandomAgent,SmartAgent,"[6, 1, 4, 4, 7, 5, 2, 6, 2, 5, 2, 2, 5, 3, 2, 3]",loss
+8,RandomAgent,SmartAgent,"[2, 1, 7, 1, 6, 5, 3, 2, 2, 7, 6, 5, 1, 3, 1, 1, 3, 6, 5, 7, 5, 5, 6, 1, 5, 7, 7, 4]",loss
+9,RandomAgent,SmartAgent,"[5, 1, 6, 2, 4, 3, 7]",win
+10,RandomAgent,SmartAgent,"[3, 3, 4, 7, 7, 6, 1, 2, 4, 3, 4, 4, 4, 4, 6, 5, 6, 5, 5, 5, 2, 6, 3, 6, 5, 6, 3, 5, 1, 3]",loss
+11,RandomAgent,SmartAgent,"[5, 3, 7, 4, 3, 5, 1, 7, 6, 6, 2, 4]",loss
+12,RandomAgent,SmartAgent,"[3, 2, 4, 7, 6, 5, 7, 2, 5, 5, 7, 4, 2, 3, 1, 1]",loss
+13,RandomAgent,SmartAgent,"[7, 1, 2, 4, 1, 3, 7, 5, 4, 6]",loss
+14,RandomAgent,SmartAgent,"[7, 6, 6, 4, 6, 4, 4, 5, 6, 3]",loss
+15,RandomAgent,SmartAgent,"[1, 4, 1, 6, 6, 6, 5, 3, 5, 6, 5, 5, 5, 3, 5, 2, 1, 1, 6, 4, 7, 4]",loss
+16,RandomAgent,SmartAgent,"[7, 4, 6, 7, 3, 3, 7, 3, 4, 2, 7, 2, 5, 7, 4, 2, 6, 2]",loss
+17,RandomAgent,SmartAgent,"[5, 3, 3, 7, 1, 3, 6, 4, 3, 2, 7, 3, 2, 2, 4, 1, 6, 5, 4, 7, 2, 3, 6, 6, 4, 4, 5, 5, 1, 1, 1, 7, 2, 1, 5, 5, 2, 6, 7, 6, 7]",draw
+18,RandomAgent,SmartAgent,"[7, 2, 7, 1, 6, 2, 4, 5, 5, 6, 4, 4, 1, 3, 2, 4, 6, 1, 4, 2, 6, 2, 3, 3]",loss
+19,RandomAgent,SmartAgent,"[4, 7, 3, 1, 5, 2, 4, 6, 1, 5, 4, 4, 1, 5, 3, 6]",loss
+20,RandomAgent,SmartAgent,"[5, 2, 5, 3, 3, 7, 1, 6, 7, 7, 1, 7, 7, 3, 7, 2, 5, 5, 3, 4, 5, 3, 6, 4, 3, 5, 2, 2, 6, 6, 4, 4]",loss
+21,RandomAgent,SmartAgent,"[7, 3, 4, 6, 4, 1, 3, 1, 4, 4, 7, 5, 3, 1, 5, 1]",loss
+22,RandomAgent,SmartAgent,"[6, 7, 3, 2, 1, 7, 1, 3, 2, 3, 7, 1, 1, 3, 3, 5, 3, 2, 7, 6, 6, 6, 2, 2, 7, 4, 2, 1, 5, 6, 6, 5, 7]",win
+23,RandomAgent,SmartAgent,"[3, 2, 3, 2, 1, 6, 1, 2, 6, 2]",loss
+24,RandomAgent,SmartAgent,"[6, 3, 1, 1, 7, 3, 6, 2, 6, 6, 6, 1, 1, 1, 1, 2, 2, 5, 3, 4]",loss
+25,RandomAgent,SmartAgent,"[4, 5, 7, 4, 6, 2, 6, 6, 1, 1, 4, 4, 5, 5, 1, 5, 5, 4, 1, 4, 1, 1, 7, 2, 6, 3, 7, 3]",loss
+26,RandomAgent,SmartAgent,"[7, 1, 4, 7, 3, 2, 6, 5, 1, 5, 3, 3, 5, 5, 2, 4, 2, 2]",loss
+27,RandomAgent,SmartAgent,"[2, 3, 2, 4, 5, 3, 5, 6, 5, 5, 6, 5, 6, 3, 1, 3]",loss
+28,RandomAgent,SmartAgent,"[6, 6, 7, 6, 3, 6, 1, 6]",loss
+29,RandomAgent,SmartAgent,"[5, 7, 5, 5, 3, 2, 7, 6, 2, 5, 2, 4, 1, 4, 3, 1, 2, 2, 4, 2, 6, 1, 7, 6, 6, 1, 6, 1]",loss
+30,RandomAgent,SmartAgent,"[2, 5, 3, 6, 1, 4, 4, 5, 3, 5, 3, 5]",loss
+31,RandomAgent,SmartAgent,"[6, 1, 2, 5, 4, 3, 3, 2, 2, 7, 4, 7, 7, 5, 6, 5, 6, 5]",loss
+32,RandomAgent,SmartAgent,"[6, 4, 5, 3, 5, 1, 4, 2]",loss
+33,RandomAgent,SmartAgent,"[4, 1, 1, 1, 4, 3, 7, 7, 5, 6, 6, 1, 4, 4, 5, 3, 3, 2, 1, 2, 6, 5, 6, 6, 6, 4, 3, 2, 4, 2]",loss
+34,RandomAgent,SmartAgent,"[3, 2, 2, 7, 7, 7, 4, 2, 6, 5, 5, 3, 1, 6, 6, 3, 6, 1, 5, 4, 3, 2]",loss
+35,RandomAgent,SmartAgent,"[3, 7, 5, 5, 1, 6, 2, 4, 2, 4, 1, 7, 4, 6]",loss
+36,RandomAgent,SmartAgent,"[1, 3, 5, 5, 5, 7, 4, 4, 7, 4, 2, 4, 1, 4]",loss
+37,RandomAgent,SmartAgent,"[7, 1, 4, 7, 4, 7, 2, 1, 3, 5, 1, 7, 7, 6, 7, 4, 5, 3, 1, 3, 2, 5, 4, 2]",loss
+38,RandomAgent,SmartAgent,"[5, 1, 3, 7, 6, 4, 4, 5, 7, 7, 5, 4, 3, 2, 6, 5, 2, 1, 2, 2, 4, 7, 4, 6]",loss
+39,RandomAgent,SmartAgent,"[5, 7, 6, 4, 3, 2, 4, 6, 6, 5, 4, 3, 4, 4, 3, 5, 6, 7, 4, 2, 5, 3, 7, 5, 1, 6, 5, 3]",loss
+40,RandomAgent,SmartAgent,"[7, 6, 1, 3, 6, 6, 5, 4, 4, 7, 6, 2, 4, 6, 7, 3, 2, 5, 2, 7]",loss
+41,RandomAgent,SmartAgent,"[2, 6, 1, 3, 7, 1, 7, 5, 4, 2, 5, 3, 4, 6, 2, 6, 4, 6]",loss
+42,RandomAgent,SmartAgent,"[4, 1, 4, 6, 7, 7, 1, 5, 7, 5, 5, 6, 7, 4, 6, 3, 1, 3, 4, 6, 7, 7, 1, 1, 2, 2, 4, 6, 2, 5]",loss
+43,RandomAgent,SmartAgent,"[6, 7, 7, 6, 2, 1, 5, 1, 3, 4, 2, 7, 5, 2, 7, 3, 7, 3, 4, 4, 7, 1]",loss
+44,RandomAgent,SmartAgent,"[4, 4, 7, 1, 3, 5, 4, 7, 1, 6, 7, 6, 6, 5]",loss
+45,RandomAgent,SmartAgent,"[4, 5, 1, 6, 1, 1, 7, 2, 7, 6, 2, 3, 1, 1, 1, 6, 7, 6]",loss
+46,RandomAgent,SmartAgent,"[1, 5, 2, 1, 5, 7, 4, 3, 6, 3, 2, 5, 1, 3, 1, 3]",loss
+47,RandomAgent,SmartAgent,"[7, 6, 6, 4, 3, 6, 5, 2, 5, 2, 3, 4, 3, 3, 5, 5, 3, 6, 2, 4, 7, 4]",loss
+48,RandomAgent,SmartAgent,"[5, 4, 7, 4, 7, 4, 4, 1, 2, 3, 7, 1, 1, 7, 6, 1, 1, 7, 6, 5, 7, 6]",loss
+49,RandomAgent,SmartAgent,"[5, 3, 2, 1, 4, 5, 2, 3, 1, 7, 5, 1, 4, 5, 1, 7, 6, 6, 1, 1, 6, 5, 5, 7, 6, 7]",loss
+50,RandomAgent,SmartAgent,"[3, 1, 6, 3, 7, 4, 1, 5, 3, 5, 1, 1, 4, 7, 5, 5, 7, 6, 7, 4, 3, 2]",loss
+51,RandomAgent,SmartAgent,"[5, 1, 4, 4, 1, 6, 4, 5, 5, 4, 1, 2, 7, 1, 3, 2, 1, 3]",loss
+52,RandomAgent,SmartAgent,"[4, 1, 6, 7, 4, 2, 1, 3, 5, 7, 7, 6, 4, 4, 3, 2, 4, 3]",loss
+53,RandomAgent,SmartAgent,"[5, 1, 1, 3, 1, 3, 3, 3, 5, 3, 7, 1, 6, 4, 7, 2]",loss
+54,RandomAgent,SmartAgent,"[7, 2, 3, 6, 4, 1, 7, 6, 3, 5, 2, 5, 6, 1, 5, 3, 4, 6, 3, 3, 6, 6, 5, 4, 1, 3, 5, 5, 7, 2, 2, 4, 1, 4, 2, 4]",loss
+55,RandomAgent,SmartAgent,"[4, 2, 3, 1, 2, 5, 1, 6, 2, 5, 4, 3, 1, 5, 5, 3, 6, 7, 6, 1, 3, 5, 6, 6, 4, 4, 7, 6]",loss
+56,RandomAgent,SmartAgent,"[1, 6, 1, 3, 2, 2, 3, 7, 2, 5, 3, 4]",loss
+57,RandomAgent,SmartAgent,"[1, 7, 2, 6, 2, 6, 3, 4, 4, 5]",loss
+58,RandomAgent,SmartAgent,"[2, 1, 5, 2, 4, 3, 6, 3, 4, 2, 5, 4, 4, 7, 1, 4, 3, 2, 6, 2]",loss
+59,RandomAgent,SmartAgent,"[2, 4, 7, 2, 2, 1, 1, 6, 2, 1, 7, 1, 4, 2, 2, 7, 1, 4, 5, 6, 3, 1, 6, 7, 4, 4, 4, 3, 6, 3, 6, 3]",loss
+60,RandomAgent,SmartAgent,"[6, 7, 4, 2, 3, 5, 7, 6, 6, 5, 7, 4, 3, 5, 1, 5]",loss
+61,RandomAgent,SmartAgent,"[6, 4, 6, 7, 7, 3, 3, 1, 3, 2]",loss
+62,RandomAgent,SmartAgent,"[7, 7, 7, 5, 2, 5, 6, 7, 3, 5, 7, 5]",loss
+63,RandomAgent,SmartAgent,"[3, 2, 1, 1, 6, 2, 5, 4, 4, 4, 1, 2, 6, 2]",loss
+64,RandomAgent,SmartAgent,"[6, 7, 5, 1, 4, 3, 4, 6, 1, 2, 1, 2, 2, 4, 4, 6, 3, 1, 4, 6, 1, 6]",loss
+65,RandomAgent,SmartAgent,"[5, 1, 5, 1, 4, 7, 7, 7, 2, 3, 7, 4, 2, 5, 5, 4, 2, 2, 2, 7, 2, 1, 7, 1]",loss
+66,RandomAgent,SmartAgent,"[1, 1, 3, 1, 5, 3, 4, 2, 7, 6, 7, 4, 4, 2]",loss
+67,RandomAgent,SmartAgent,"[2, 1, 7, 4, 6, 1, 1, 4, 6, 6, 2, 3, 6, 2, 5, 3, 6, 1]",loss
+68,RandomAgent,SmartAgent,"[7, 4, 6, 7, 2, 2, 3, 6, 2, 5, 3, 7, 2, 5, 3, 4]",loss
+69,RandomAgent,SmartAgent,"[6, 2, 4, 5, 2, 6, 4, 7, 5, 2, 6, 7, 7, 3, 7]",win
+70,RandomAgent,SmartAgent,"[5, 3, 6, 6, 1, 2, 5, 2, 7, 4, 6, 3, 5, 5, 3, 2, 7, 2]",loss
+71,RandomAgent,SmartAgent,"[6, 7, 1, 6, 6, 6, 3, 2, 6, 3, 1, 4, 7, 6, 3, 4, 3, 3, 1, 1, 2, 2]",loss
+72,RandomAgent,SmartAgent,"[2, 4, 1, 5, 4, 4, 1, 4, 1, 1, 2, 2, 2, 4, 5, 4]",loss
+73,RandomAgent,SmartAgent,"[5, 1, 2, 2, 6, 5, 4, 3, 2, 4, 4, 3]",loss
+74,RandomAgent,SmartAgent,"[1, 2, 6, 1, 3, 6, 6, 7, 2, 3, 7, 6, 3, 2, 5, 4, 6, 2, 4, 5, 6, 1, 5, 1]",loss
+75,RandomAgent,SmartAgent,"[5, 2, 5, 1, 3, 4, 3, 6, 3, 3, 3, 3, 1, 1, 6, 4, 4, 4, 1, 7, 4, 2, 2, 5, 4, 7, 5, 6, 5, 2, 6, 2, 7]",win
+76,RandomAgent,SmartAgent,"[4, 4, 3, 5, 4, 1, 4, 6, 7, 2, 4, 4, 2, 7, 7, 1, 6, 2, 7, 1, 1, 7, 5, 5, 6]",win
+77,RandomAgent,SmartAgent,"[7, 1, 5, 7, 5, 1, 2, 2, 5, 5, 5, 7, 5, 4, 6, 2, 3, 2, 2, 7, 2, 7]",loss
+78,RandomAgent,SmartAgent,"[4, 4, 4, 5, 4, 2, 2, 3, 5, 7, 5, 6, 2, 3, 4, 3, 5, 2]",loss
+79,RandomAgent,SmartAgent,"[5, 4, 5, 7, 2, 5, 2, 1, 5, 7, 2, 2, 4, 1, 4, 2, 7, 4, 1, 5, 2, 5, 1, 6, 4, 6]",loss
+80,RandomAgent,SmartAgent,"[7, 1, 3, 4, 1, 3, 4, 5, 6, 3, 1, 4, 5, 7, 3, 6, 7, 7, 3, 7, 5, 5, 1, 2]",loss
+81,RandomAgent,SmartAgent,"[7, 5, 7, 7, 4, 7, 5, 4, 2, 5, 3, 1, 3, 3, 7, 2, 4, 4]",loss
+82,RandomAgent,SmartAgent,"[4, 6, 1, 6, 7, 6, 1, 6]",loss
+83,RandomAgent,SmartAgent,"[4, 1, 4, 7, 7, 7, 3, 7, 7, 7, 2, 5, 3, 3, 6, 1, 3, 5, 4, 4, 2, 6, 1, 5]",loss
+84,RandomAgent,SmartAgent,"[6, 2, 2, 1, 2, 4, 2, 3]",loss
+85,RandomAgent,SmartAgent,"[6, 5, 7, 6, 7, 7, 2, 4, 6, 2, 5, 7, 2, 1, 5, 6, 2, 1, 1, 4, 3, 3]",loss
+86,RandomAgent,SmartAgent,"[4, 6, 2, 6, 3, 1, 2, 5, 7, 2, 4, 7, 4, 4, 3, 1, 7, 5, 2, 1, 1, 7, 2, 3, 3, 2, 6, 5, 4, 3]",loss
+87,RandomAgent,SmartAgent,"[3, 6, 7, 2, 3, 2, 2, 1, 4, 4, 1, 7, 6, 1, 6, 1, 4, 7, 5, 4, 3, 3, 1, 2]",loss
+88,RandomAgent,SmartAgent,"[2, 3, 2, 5, 2, 2, 5, 4, 1, 6]",loss
+89,RandomAgent,SmartAgent,"[1, 5, 7, 6, 6, 3, 6, 4]",loss
+90,RandomAgent,SmartAgent,"[7, 3, 4, 5, 6, 3, 4, 2, 3, 4, 3, 5, 4, 6, 7, 6, 6, 1, 4, 4, 7, 1, 2, 2, 6, 3, 3, 6, 5, 5]",loss
+91,RandomAgent,SmartAgent,"[2, 3, 5, 1, 1, 6, 4, 7, 1, 3, 4, 3, 2, 3]",loss
+92,RandomAgent,SmartAgent,"[5, 3, 7, 7, 4, 6, 6, 5, 3, 2, 2, 7, 3, 2, 3, 3, 5, 6, 6, 3, 1, 1, 2, 4, 4, 4, 1, 2, 5, 6, 5, 5, 1, 7, 2, 4, 6, 1]",loss
+93,RandomAgent,SmartAgent,"[2, 2, 3, 4, 2, 1, 2, 1, 4, 3, 2, 2, 3, 5, 1, 4, 6, 5, 1, 1, 7, 3, 4, 1, 5, 6, 4, 4, 6, 6, 7, 5, 7, 6]",loss
+94,RandomAgent,SmartAgent,"[6, 2, 5, 3, 2, 4, 7, 1]",loss
+95,RandomAgent,SmartAgent,"[5, 1, 3, 5, 6, 4, 3, 7, 6, 7, 7, 7, 6, 6, 3, 3, 4, 4, 4, 1, 1, 5, 5, 7, 7, 2, 5, 2, 6, 6, 2, 2, 1, 2]",loss
+96,RandomAgent,SmartAgent,"[6, 6, 4, 6, 3, 5, 5, 5, 6, 6, 4, 4, 5, 2, 4, 2, 6, 2, 4, 2]",loss
+97,RandomAgent,SmartAgent,"[1, 1, 6, 6, 4, 3, 4, 4, 7, 5, 2, 6, 4, 7, 6, 5, 5, 7, 1, 1, 7, 5, 7]",win
+98,RandomAgent,SmartAgent,"[6, 3, 4, 2, 1, 4, 4, 4, 2, 3, 3, 2, 4, 7, 7, 5, 4, 7, 2, 1, 1, 1, 3, 3, 3, 5, 7, 6]",loss
+99,RandomAgent,SmartAgent,"[6, 6, 4, 6, 1, 3, 7, 5, 7, 3, 1, 7, 1, 1, 5, 4, 2, 7, 3, 1, 5, 4, 2, 4, 4, 2, 2, 4, 1, 6, 5, 5]",loss
+100,RandomAgent,SmartAgent,"[4, 7, 1, 7, 2, 3, 7, 4, 5, 3, 1, 5, 5, 2]",loss
+101,RandomAgent,SmartAgent,"[6, 5, 7, 7, 4, 4, 1, 7, 4, 5, 7, 6]",loss
+102,RandomAgent,SmartAgent,"[4, 4, 2, 1, 2, 3, 3, 5, 5, 2, 3, 3, 4, 7, 6, 7, 5, 5, 5, 4, 2, 5, 6, 4]",loss
+103,RandomAgent,SmartAgent,"[4, 7, 7, 1, 4, 3, 5, 2, 3, 1, 3, 2, 5, 5, 3, 3, 6, 4, 6]",win
+104,RandomAgent,SmartAgent,"[3, 3, 3, 2, 3, 5, 6, 2, 4, 6, 2, 4, 5, 4, 2, 2, 5, 5]",loss
+105,RandomAgent,SmartAgent,"[1, 1, 3, 1, 5, 3, 5, 2, 7, 5, 1, 3, 3, 7, 1, 5, 1, 4, 4, 4]",loss
+106,RandomAgent,SmartAgent,"[4, 1, 1, 5, 5, 5, 2, 1, 1, 7, 6, 7, 4, 2, 3, 2, 5, 1, 3, 4, 3, 3, 6]",win
+107,RandomAgent,SmartAgent,"[7, 3, 4, 7, 1, 5, 1, 3, 2, 1, 5, 3, 4, 3]",loss
+108,RandomAgent,SmartAgent,"[2, 3, 4, 6, 6, 6, 3, 4, 4, 6, 3, 1, 2, 2, 7, 4, 6, 3, 2, 1, 3, 4]",loss
+109,RandomAgent,SmartAgent,"[4, 2, 3, 1, 7, 5, 2, 6, 2, 7, 5, 3, 4, 7, 6, 5, 4, 4, 4, 1, 5, 4, 1, 3, 7, 6, 7, 3, 5, 3]",loss
+110,RandomAgent,SmartAgent,"[3, 1, 1, 5, 5, 7, 6, 2, 7, 5, 5, 4, 6, 4, 6, 6, 1, 2, 3, 1, 1, 4, 5, 4]",loss
+111,RandomAgent,SmartAgent,"[1, 1, 3, 3, 5, 7, 3, 4, 6, 7, 7, 4, 3, 7, 4, 5, 5, 6]",loss
+112,RandomAgent,SmartAgent,"[4, 7, 6, 7, 3, 5, 2, 1, 2, 7, 2, 2, 1, 2, 3, 4, 7, 3]",loss
+113,RandomAgent,SmartAgent,"[1, 2, 6, 7, 5, 1, 5, 3, 1, 6, 1, 5, 3, 6, 2, 7, 7, 7, 5, 5, 2, 4, 3, 4, 2, 6]",loss
+114,RandomAgent,SmartAgent,"[5, 3, 4, 5, 3, 6, 2, 6, 2, 7, 4, 5, 7, 1, 4, 4]",loss
+115,RandomAgent,SmartAgent,"[4, 4, 5, 5, 3, 2, 5, 6, 2, 1, 2, 6, 1, 3]",loss
+116,RandomAgent,SmartAgent,"[5, 7, 7, 5, 3, 2, 3, 2, 1, 5, 1, 2, 4, 2]",loss
+117,RandomAgent,SmartAgent,"[1, 4, 6, 6, 3, 6, 7, 3, 6, 3, 7, 3, 3, 3, 7, 2, 6, 5, 4, 7, 5, 5, 1, 4]",loss
+118,RandomAgent,SmartAgent,"[3, 1, 7, 4, 1, 6, 4, 3, 3, 5, 5, 2, 6, 3, 5, 1, 7]",win
+119,RandomAgent,SmartAgent,"[7, 5, 4, 1, 7, 3, 2, 4, 5, 5, 2, 3, 3, 5, 6, 1, 7, 1, 3, 1]",loss
+120,RandomAgent,SmartAgent,"[6, 6, 1, 5, 7, 5, 7, 7, 6, 4, 3, 1, 4, 4, 7, 2, 2, 1, 3, 2, 5, 3]",loss
+121,RandomAgent,SmartAgent,"[6, 1, 3, 1, 1, 3, 7, 1, 5, 4, 3, 7, 4, 6, 6, 1, 1, 2, 5, 6, 3, 4, 6, 7, 3, 3, 2, 2]",loss
+122,RandomAgent,SmartAgent,"[2, 5, 5, 2, 3, 4, 4, 7, 7, 6]",loss
+123,RandomAgent,SmartAgent,"[6, 1, 1, 2, 7, 6, 6, 5, 5, 3, 3, 4]",loss
+124,RandomAgent,SmartAgent,"[7, 6, 2, 4, 6, 2, 6, 1, 7, 1, 5, 1, 3, 1]",loss
+125,RandomAgent,SmartAgent,"[4, 4, 7, 1, 3, 3, 6, 5, 6, 4, 7, 2, 6, 6, 2, 6, 2, 3, 1, 2]",loss
+126,RandomAgent,minMaxAgent,"[2, 6, 7, 2, 7, 4, 7, 7, 7, 1, 5, 3, 5, 1, 3, 4, 2, 2, 3, 6, 5, 4, 1, 4]",loss
+127,RandomAgent,minMaxAgent,"[7, 5, 3, 5, 1, 4, 2, 3, 3, 2, 2, 4]",loss
+128,RandomAgent,minMaxAgent,"[5, 7, 6, 2, 2, 3, 4, 3, 2, 6, 6, 5, 4, 1, 6, 1, 5, 4, 5, 2, 3, 5, 4, 3, 3, 2]",loss
+129,RandomAgent,minMaxAgent,"[4, 3, 6, 1, 3, 2, 2, 3, 2, 4, 4, 6, 3, 4, 2, 2, 3, 5, 2, 5, 5, 4, 1, 1, 1]",win
+130,RandomAgent,minMaxAgent,"[6, 1, 2, 7, 7, 7, 7, 6, 3, 6, 3, 4, 2, 4, 6, 1, 7, 4, 5, 4]",loss
+131,RandomAgent,minMaxAgent,"[5, 1, 6, 6, 5, 4, 2, 2, 2, 1, 2, 7, 5, 5, 7, 3, 1, 4, 7, 3]",loss
+132,RandomAgent,minMaxAgent,"[7, 4, 6, 1, 7, 3, 4, 2]",loss
+133,RandomAgent,minMaxAgent,"[6, 5, 1, 2, 7, 7, 3, 1, 3, 3, 5, 7, 2, 3, 6, 1, 7, 4, 2, 4, 2, 2, 3, 5, 6, 6, 5, 7]",loss
+134,RandomAgent,minMaxAgent,"[4, 1, 7, 2, 5, 6, 7, 1, 2, 2, 6, 7, 5, 4, 6, 7, 2, 3, 1, 4, 2, 4, 2, 4]",loss
+135,RandomAgent,minMaxAgent,"[2, 7, 1, 4, 6, 1, 1, 6, 4, 5, 3, 3, 7, 6, 7, 5, 3, 7]",loss
+136,RandomAgent,minMaxAgent,"[1, 3, 6, 6, 4, 3, 4, 6, 6, 5, 3, 4, 1, 6, 1, 1, 2, 5, 5, 5]",loss
+137,RandomAgent,minMaxAgent,"[3, 6, 3, 3, 3, 7, 6, 5, 6, 4]",loss
+138,RandomAgent,minMaxAgent,"[3, 1, 3, 3, 4, 7, 6, 5, 5, 2, 7, 5, 2, 4, 2, 2]",loss
+139,RandomAgent,minMaxAgent,"[3, 4, 4, 3, 4, 6, 2, 6, 6, 3, 2, 1, 5, 2, 6, 6, 3, 1, 1, 1]",loss
+140,RandomAgent,minMaxAgent,"[7, 6, 2, 4, 2, 4, 6, 7, 1, 2, 1, 4, 4, 5, 3, 5, 5]",win
+141,RandomAgent,minMaxAgent,"[2, 2, 1, 2, 6, 4, 1, 7, 6, 7, 3, 3, 1, 1]",loss
+142,RandomAgent,minMaxAgent,"[3, 6, 6, 4, 6, 3, 3, 3, 1, 1, 5, 6, 6, 3, 6, 1, 2, 3, 5, 7, 7, 4, 1, 2]",loss
+143,RandomAgent,minMaxAgent,"[4, 4, 4, 1, 7, 5, 1, 2, 2, 1, 1, 2, 7, 6, 3, 3, 1, 4, 2, 6, 1, 5]",loss
+144,RandomAgent,minMaxAgent,"[7, 3, 7, 6, 4, 2, 6, 7, 5, 6, 1, 2, 5, 4, 1, 1, 6, 2, 3, 2]",loss
+145,RandomAgent,minMaxAgent,"[5, 3, 3, 5, 6, 1, 6, 7, 2, 4, 3, 2, 4, 3, 6, 6, 2, 2, 2, 4, 3, 3, 1, 2, 4, 5, 5, 6, 7, 4, 5, 6, 4, 5, 7, 7, 7, 7, 1, 1, 1]",draw
+146,RandomAgent,minMaxAgent,"[5, 4, 1, 4, 6, 3, 4, 6, 5, 3, 2, 1, 1, 2]",loss
+147,RandomAgent,minMaxAgent,"[1, 4, 3, 2, 3, 1, 5, 6, 6, 4, 1, 2, 5, 3, 5, 5, 3, 6, 5, 7, 3, 7, 6, 3, 4, 4, 7, 4]",loss
+148,RandomAgent,minMaxAgent,"[2, 6, 2, 1, 7, 5, 6, 1, 7, 1, 6, 1]",loss
+149,RandomAgent,minMaxAgent,"[2, 3, 5, 1, 4, 6, 1, 4, 7, 3, 2, 2, 4, 1, 4, 1, 5, 1, 5, 1]",loss
+150,RandomAgent,minMaxAgent,"[3, 5, 3, 3, 1, 7, 1, 5, 3, 6, 6, 4]",loss
+151,RandomAgent,minMaxAgent,"[1, 3, 5, 2, 7, 3, 1, 1, 3, 1, 1, 3, 1, 5, 3, 5, 6, 4, 7, 6, 2, 2]",loss
+152,RandomAgent,minMaxAgent,"[6, 3, 6, 3, 5, 7, 4, 7, 6, 6, 2, 1, 4, 2, 5, 1, 3, 3, 2, 2, 5, 4, 7, 5, 1, 4]",loss
+153,RandomAgent,minMaxAgent,"[7, 1, 1, 6, 4, 5, 1, 5, 4, 5, 5, 1, 7, 1, 6, 6, 4, 4, 5, 6, 5, 4, 1, 6, 3, 6]",loss
+154,RandomAgent,minMaxAgent,"[1, 1, 6, 2, 2, 2, 1, 3, 6, 7, 5, 6, 4, 3, 6, 3, 3, 2, 4, 2, 1, 2]",loss
+155,RandomAgent,minMaxAgent,"[4, 2, 2, 4, 3, 7, 5, 6, 6, 6, 6, 2, 3, 4, 7, 1, 5, 1, 7, 6, 2, 4, 3, 4]",loss
+156,RandomAgent,minMaxAgent,"[1, 6, 2, 3, 3, 4, 7, 5]",loss
+157,RandomAgent,minMaxAgent,"[4, 3, 5, 5, 1, 5, 1, 6, 2, 6, 1, 1, 2, 7, 3, 4, 6, 6]",loss
+158,RandomAgent,minMaxAgent,"[6, 6, 5, 4, 1, 5, 2, 4, 4, 7, 4, 7]",loss
+159,RandomAgent,minMaxAgent,"[4, 3, 6, 7, 2, 3, 7, 2, 3, 4, 1, 1]",loss
+160,RandomAgent,minMaxAgent,"[4, 6, 3, 6, 2, 1, 2, 5, 5, 5, 4, 3, 2, 2, 4, 4, 7, 4, 4, 2, 2, 5, 5, 1, 6, 7, 1, 3, 1, 3]",loss
+161,RandomAgent,minMaxAgent,"[3, 1, 7, 1, 6, 5, 4, 7, 2, 3, 4, 2, 1, 4, 4, 4, 5, 2, 4, 5, 6, 3]",loss
+162,RandomAgent,minMaxAgent,"[7, 1, 7, 1, 3, 5, 3, 1, 2, 1]",loss
+163,RandomAgent,minMaxAgent,"[4, 1, 4, 4, 5, 5, 1, 2, 2, 6, 3, 3, 7, 1, 7, 6, 6, 5, 7, 5]",loss
+164,RandomAgent,minMaxAgent,"[6, 5, 3, 1, 6, 1, 1, 1, 4, 6, 3, 3, 3, 1, 1, 2, 5, 4, 3, 4, 5, 4, 3, 2]",loss
+165,RandomAgent,minMaxAgent,"[2, 6, 5, 1, 1, 4, 4, 2, 5, 6, 4, 6, 1, 6]",loss
+166,RandomAgent,minMaxAgent,"[1, 1, 2, 6, 2, 3, 5, 1, 2, 2, 7, 7, 5, 3, 4, 1, 4, 1]",loss
+167,RandomAgent,minMaxAgent,"[7, 5, 2, 6, 4, 7, 2, 6, 5, 2, 1, 3, 6, 3, 2, 3, 6, 3]",loss
+168,RandomAgent,minMaxAgent,"[7, 5, 3, 7, 2, 6, 7, 5, 1, 4, 4, 3, 5, 2, 2, 7, 5, 4, 7, 1, 3, 3]",loss
+169,RandomAgent,minMaxAgent,"[3, 7, 2, 1, 6, 6, 4, 5, 2, 1, 1, 3, 2, 2, 6, 1, 6, 5, 1, 4]",loss
+170,RandomAgent,minMaxAgent,"[7, 6, 2, 4, 1, 6, 6, 1, 4, 7, 3, 5, 2, 4, 6, 3, 7, 6, 7, 3, 4, 5, 5]",win
+171,RandomAgent,minMaxAgent,"[6, 6, 7, 4, 2, 2, 1, 7, 5, 1, 7, 7, 4, 4, 4, 7, 7, 4, 2, 2, 2, 2, 3, 5, 3, 6]",loss
+172,RandomAgent,minMaxAgent,"[2, 7, 3, 7, 3, 2, 6, 5, 6, 3, 3, 2, 4, 1, 6, 6, 7, 4, 6, 2]",loss
+173,RandomAgent,minMaxAgent,"[1, 7, 4, 6, 4, 3, 7, 2, 2, 6, 3, 1, 6, 3, 6, 5, 7, 5, 5, 4, 5, 3]",loss
+174,RandomAgent,minMaxAgent,"[7, 6, 4, 7, 4, 2, 3, 4, 1, 5, 7, 1, 7, 2, 2, 7, 7, 2, 1, 4, 3, 1, 6, 5, 5, 3, 2, 3]",loss
+175,RandomAgent,minMaxAgent,"[4, 1, 4, 4, 2, 5, 6, 6, 3, 4, 5, 2, 7, 2, 3, 3]",loss
+176,RandomAgent,minMaxAgent,"[3, 6, 7, 2, 3, 5, 1, 2, 7, 6, 4, 7, 2, 6, 4, 6]",loss
+177,RandomAgent,minMaxAgent,"[3, 4, 6, 1, 7, 6, 6, 4, 5, 3, 5, 6, 2, 4, 2, 4]",loss
+178,RandomAgent,minMaxAgent,"[6, 7, 5, 2, 3, 4, 4, 3, 7, 6, 2, 5, 3, 5, 5, 7, 4, 4]",loss
+179,RandomAgent,minMaxAgent,"[1, 6, 1, 4, 4, 6, 4, 1, 4, 4, 4, 6, 7, 6]",loss
+180,RandomAgent,minMaxAgent,"[3, 5, 4, 7, 4, 7, 4, 4, 2, 1, 3, 3, 5, 2]",loss
+181,RandomAgent,minMaxAgent,"[6, 6, 5, 4, 4, 3, 5, 4, 6, 2, 7, 1]",loss
+182,RandomAgent,minMaxAgent,"[1, 3, 4, 4, 6, 2, 1, 4, 6, 6, 1, 1, 2, 4, 2, 4]",loss
+183,RandomAgent,minMaxAgent,"[5, 7, 7, 5, 4, 6, 3, 2, 4, 1, 2, 2, 7, 2, 3, 1, 5, 2, 5, 2]",loss
+184,RandomAgent,minMaxAgent,"[5, 1, 3, 5, 5, 3, 3, 4, 6, 4, 6, 6, 6, 2, 2, 3, 1, 5, 1, 4]",loss
+185,RandomAgent,minMaxAgent,"[3, 6, 4, 4, 6, 2, 4, 4, 4, 2, 4, 5, 5, 1, 6, 1, 2, 3]",loss
+186,RandomAgent,minMaxAgent,"[4, 1, 7, 7, 2, 1, 2, 5, 4, 5, 3, 3, 6, 3, 1, 4, 7, 7, 2, 2, 2, 6, 2, 3, 7, 3]",loss
+187,RandomAgent,minMaxAgent,"[4, 3, 7, 5, 5, 4, 6, 4, 4, 2, 2, 1, 6, 5, 6, 6]",loss
+188,RandomAgent,minMaxAgent,"[6, 5, 6, 7, 4, 7, 6, 6, 7, 1, 4, 6, 6, 2, 5, 7, 3, 3, 7, 3, 3, 4, 5, 5]",loss
+189,RandomAgent,minMaxAgent,"[6, 3, 6, 4, 1, 2, 2, 5]",loss
+190,RandomAgent,minMaxAgent,"[7, 5, 7, 3, 2, 5, 6, 7, 5, 5, 5, 1, 6, 2, 6, 6, 7, 6, 3, 6, 4, 5, 4, 2, 3, 4, 4]",win
+191,RandomAgent,minMaxAgent,"[7, 3, 3, 4, 4, 4, 2, 2, 2, 4, 7, 6, 7, 5]",loss
+192,RandomAgent,minMaxAgent,"[1, 2, 2, 2, 3, 6, 1, 3, 6, 3, 4, 4, 3, 5, 3, 2]",loss
+193,RandomAgent,minMaxAgent,"[7, 1, 5, 2, 4, 6, 4, 5, 6, 5, 3, 7, 6, 5, 1, 5]",loss
+194,RandomAgent,minMaxAgent,"[2, 3, 1, 2, 6, 2, 1, 4, 4, 6, 5, 6, 1, 1, 4, 3]",loss
+195,RandomAgent,minMaxAgent,"[5, 3, 3, 6, 7, 3, 4, 7, 4, 1, 5, 6, 5, 5, 3, 2, 5, 2, 7, 5, 4, 4]",loss
+196,RandomAgent,minMaxAgent,"[4, 5, 2, 1, 7, 2, 7, 5, 2, 6, 2, 5, 7, 5]",loss
+197,RandomAgent,minMaxAgent,"[4, 5, 3, 5, 5, 1, 6, 2, 1, 3, 7, 3, 3, 1, 6, 5, 1, 4, 6, 2]",loss
+198,RandomAgent,minMaxAgent,"[5, 2, 7, 1, 2, 3, 2, 4]",loss
+199,RandomAgent,minMaxAgent,"[2, 4, 4, 2, 3, 1, 1, 6, 5, 6, 3, 6, 3, 6]",loss
+200,RandomAgent,minMaxAgent,"[2, 1, 5, 4, 5, 5, 4, 3, 6, 7, 3, 2, 5, 4, 2, 6, 2, 4]",loss
+201,RandomAgent,minMaxAgent,"[7, 1, 3, 4, 4, 4, 7, 3, 2, 1, 5, 1, 1, 3, 7, 7, 3, 4, 5, 2]",loss
+202,RandomAgent,minMaxAgent,"[3, 7, 7, 6, 4, 7, 7, 6, 5, 2, 1, 6, 5, 6]",loss
+203,RandomAgent,minMaxAgent,"[6, 3, 3, 6, 6, 2, 5, 3, 2, 4, 4, 1]",loss
+204,RandomAgent,minMaxAgent,"[6, 5, 5, 5, 6, 3, 2, 2, 2, 7, 4, 7, 6, 6, 1, 4]",loss
+205,RandomAgent,minMaxAgent,"[6, 2, 4, 3, 7, 5, 3, 7, 1, 4, 2, 7, 6, 6, 1, 5, 2, 2, 3, 3, 3, 3, 1, 1, 2, 4, 6, 4]",loss
+206,RandomAgent,minMaxAgent,"[2, 3, 5, 5, 2, 2, 5, 1, 3, 2, 4, 5, 3, 6, 4, 1, 4, 4, 1, 3]",loss
+207,RandomAgent,minMaxAgent,"[3, 2, 7, 7, 7, 6, 3, 6, 3, 3, 4, 1, 2, 4, 5, 5]",loss
+208,RandomAgent,minMaxAgent,"[6, 4, 2, 6, 4, 6, 4, 5, 4, 4, 2, 3, 7, 1, 4, 2, 3, 1, 3, 3]",loss
+209,RandomAgent,minMaxAgent,"[6, 4, 1, 1, 7, 6, 3, 7, 2, 4, 6, 2, 1, 3]",loss
+210,RandomAgent,minMaxAgent,"[5, 2, 2, 5, 7, 3, 2, 6, 5, 5, 2, 2, 5, 4, 5, 1]",loss
+211,RandomAgent,minMaxAgent,"[1, 3, 3, 6, 5, 5, 7, 1, 4, 4, 6, 2, 5, 2, 7, 2, 7, 2]",loss
+212,RandomAgent,minMaxAgent,"[2, 1, 2, 3, 5, 4, 2, 2, 3, 5, 5, 2, 6, 3, 3, 1, 3, 7, 3, 4, 1, 6, 1, 1]",loss
+213,RandomAgent,minMaxAgent,"[5, 4, 2, 3, 3, 1, 5, 1, 4, 2, 3, 2, 1, 2, 7, 2]",loss
+214,RandomAgent,minMaxAgent,"[2, 4, 1, 2, 2, 2, 7, 3, 3, 2, 6, 3, 2, 1, 7, 6, 6, 6, 6, 1, 1, 4, 1, 5]",loss
+215,RandomAgent,minMaxAgent,"[4, 7, 6, 3, 2, 2, 5, 7, 7, 5, 2, 5, 7, 7, 5, 1, 2, 1, 4, 5, 3, 3, 7, 4, 3, 4]",loss
+216,RandomAgent,minMaxAgent,"[5, 7, 7, 5, 7, 3, 5, 7, 5, 7, 4, 2, 4, 4, 4, 2, 7, 5, 4, 4, 2, 5, 1, 1, 3, 2, 2, 2, 6, 1, 3, 1, 3, 1]",loss
+217,RandomAgent,minMaxAgent,"[1, 6, 2, 3, 1, 7, 4, 2, 5, 5, 6, 4, 5, 3]",loss
+218,RandomAgent,minMaxAgent,"[3, 1, 5, 1, 7, 3, 2, 4, 1, 6, 6, 2, 3, 4]",loss
+219,RandomAgent,minMaxAgent,"[3, 4, 4, 5, 3, 7, 2, 6]",loss
+220,RandomAgent,minMaxAgent,"[5, 1, 1, 5, 1, 4, 1, 1, 6, 5, 6, 7, 4, 6, 1, 2, 7, 3]",loss
+221,RandomAgent,minMaxAgent,"[3, 5, 1, 7, 3, 3, 6, 6, 4, 2, 4, 2, 6, 5, 4, 4, 4, 5]",loss
+222,RandomAgent,minMaxAgent,"[5, 3, 5, 7, 7, 3, 7, 1, 7, 7, 2, 4, 5, 5, 2, 4, 4, 7, 6, 4, 2, 2, 2, 3, 2, 3]",loss
+223,RandomAgent,minMaxAgent,"[3, 2, 5, 3, 4, 6, 3, 2, 2, 5, 3, 4]",loss
+224,RandomAgent,minMaxAgent,"[1, 2, 7, 7, 3, 4, 4, 2, 6, 1, 3, 3, 4, 5, 2, 4, 6, 5, 4, 7, 3, 4, 7, 7, 6, 6, 6, 5, 5]",win
+225,RandomAgent,minMaxAgent,"[4, 7, 3, 5, 2, 1, 3, 4, 5, 2, 5, 7, 6, 6, 1, 1, 4, 5, 4, 7, 1, 7]",loss
+226,RandomAgent,minMaxAgent,"[5, 3, 2, 2, 2, 6, 3, 5, 1, 2, 1, 2, 1, 1, 2, 1, 3, 1, 7, 3, 3, 3, 4, 5, 5, 6, 7, 4, 6, 4]",loss
+227,RandomAgent,minMaxAgent,"[6, 6, 1, 2, 5, 3, 3, 3, 7, 4, 4, 6, 5, 2, 3, 4, 4, 5]",loss
+228,RandomAgent,minMaxAgent,"[7, 4, 2, 5, 7, 1, 6, 4, 5, 2, 7, 7, 6, 3, 2, 3, 1, 7, 1, 5, 5, 2, 6, 3]",loss
+229,RandomAgent,minMaxAgent,"[7, 2, 2, 2, 2, 5, 1, 6, 1, 5, 5, 3, 1, 4]",loss
+230,RandomAgent,minMaxAgent,"[4, 4, 6, 3, 3, 1, 3, 7, 2, 7, 2, 7, 5, 7]",loss
+231,RandomAgent,minMaxAgent,"[7, 4, 6, 6, 2, 7, 5, 5, 5, 4]",loss
+232,RandomAgent,minMaxAgent,"[6, 3, 3, 6, 1, 1, 6, 2, 2, 1, 5, 5, 1, 3, 3, 2, 3, 3, 6, 6, 6, 7, 7, 1, 5, 7, 2, 1, 2, 4, 5, 7, 4, 4]",loss
+233,RandomAgent,minMaxAgent,"[1, 5, 1, 6, 3, 3, 4, 2, 1, 1, 7, 4, 6, 3, 3, 2, 7, 5]",loss
+234,RandomAgent,minMaxAgent,"[4, 1, 5, 4, 2, 3, 1, 1, 5, 5, 3, 1, 4, 5, 2, 2, 2, 2, 1, 5, 1, 5]",loss
+235,RandomAgent,minMaxAgent,"[5, 1, 4, 7, 3, 2, 3, 6, 1, 3, 7, 1, 1, 5, 5, 7, 1, 6, 5, 7, 1, 4, 4, 2, 6, 4]",loss
+236,RandomAgent,minMaxAgent,"[5, 3, 6, 5, 4, 7, 1, 6, 5, 5, 7, 5, 6, 5, 1, 6, 3, 6, 2, 6, 7, 7, 1, 1, 7, 1, 7, 1, 4, 2, 3, 4, 4, 2, 4, 2, 2, 4, 2, 3, 3]",win
+237,RandomAgent,minMaxAgent,"[1, 6, 3, 7, 6, 1, 4, 2, 7, 4, 4, 7, 6, 1, 5, 2, 2, 3]",loss
+238,RandomAgent,minMaxAgent,"[3, 4, 5, 4, 3, 5, 1, 6, 5, 7, 6, 2, 1, 1, 3, 3, 7, 4]",loss
+239,RandomAgent,minMaxAgent,"[1, 5, 5, 3, 5, 2, 1, 4]",loss
+240,RandomAgent,minMaxAgent,"[5, 7, 5, 6, 5, 5, 7, 3, 5, 6, 3, 3, 3, 6, 6, 4, 6, 5, 3, 7, 7, 2, 1, 1, 2, 4, 1, 2, 7, 3, 7, 4, 6, 4]",loss
+241,RandomAgent,minMaxAgent,"[2, 3, 7, 3, 1, 7, 2, 5, 4, 7, 7, 4, 4, 5, 3, 4, 3, 3, 7, 3, 7, 5, 2, 5]",loss
+242,RandomAgent,minMaxAgent,"[2, 7, 7, 6, 2, 2, 2, 3, 1, 2, 1, 2, 4, 5, 3, 4, 6, 3, 1, 1, 5, 1, 5, 7, 5, 4, 4, 3, 3]",win
+243,RandomAgent,minMaxAgent,"[3, 6, 2, 1, 6, 4, 3, 1, 3, 3, 4, 3, 5, 5, 2, 4]",loss
+244,RandomAgent,minMaxAgent,"[1, 4, 5, 2, 4, 1, 3, 6, 5, 6, 3, 2, 1, 5, 1, 7, 3, 3, 2, 2, 6, 4, 6, 4]",loss
+245,RandomAgent,minMaxAgent,"[2, 5, 5, 4, 4, 2, 4, 4, 6, 5, 6, 6, 7, 7, 6, 1, 3, 3, 2, 3]",loss
+246,RandomAgent,minMaxAgent,"[3, 6, 6, 1, 7, 1, 3, 2, 7, 1, 1, 5, 2, 6, 6, 3, 3, 4, 1, 3, 1, 5, 5, 4, 2, 2]",loss
+247,RandomAgent,minMaxAgent,"[6, 3, 2, 3, 7, 1, 1, 4, 7, 5, 6, 6, 1, 6, 6, 4, 6, 5, 2, 5]",loss
+248,RandomAgent,minMaxAgent,"[1, 3, 6, 4, 5, 2, 2, 4, 4, 4, 2, 6, 4, 6, 1, 1, 7, 6, 3, 6]",loss
+249,RandomAgent,minMaxAgent,"[7, 3, 5, 6, 1, 3, 3, 4, 2, 1, 2, 2, 4, 2, 6, 3, 5, 7, 2, 6, 4, 4, 3, 4]",loss
+250,RandomAgent,minMaxAgent,"[4, 3, 2, 3, 4, 7, 5, 6, 2, 2, 3, 2, 2, 2, 6, 1, 6, 4, 1, 7, 5, 5, 6, 6, 4, 5]",loss
+251,RandomAgent,MachineLearningAgent,"[6, 6, 7, 4, 7, 2, 2, 1, 6, 6, 3, 1, 2, 1, 7, 1]",loss
+252,RandomAgent,MachineLearningAgent,"[5, 5, 3, 4, 6, 3, 2, 4, 5, 4, 7, 2]",loss
+253,RandomAgent,MachineLearningAgent,"[3, 3, 7, 5, 2, 5, 1, 1, 5, 1, 4]",win
+254,RandomAgent,MachineLearningAgent,"[3, 3, 1, 5, 2, 4, 3, 1, 6, 1, 7, 1, 6, 1]",loss
+255,RandomAgent,MachineLearningAgent,"[1, 4, 6, 1, 5, 1, 7, 1, 2, 1]",loss
+256,RandomAgent,MachineLearningAgent,"[3, 3, 5, 4, 1, 1, 6, 1, 1, 1, 2, 1, 4, 2, 5, 2, 3, 2, 6, 2]",loss
+257,RandomAgent,MachineLearningAgent,"[3, 3, 5, 4, 3, 4, 3, 2, 6, 1, 1, 1, 2, 1, 3, 1, 6, 1]",loss
+258,RandomAgent,MachineLearningAgent,"[4, 4, 7, 5, 2, 5, 2, 2, 1, 1, 3]",win
+259,RandomAgent,MachineLearningAgent,"[4, 4, 2, 5, 1, 1, 3]",win
+260,RandomAgent,MachineLearningAgent,"[7, 5, 6, 6, 1, 1, 5, 1, 7, 1, 2, 1]",loss
+261,RandomAgent,MachineLearningAgent,"[1, 4, 3, 4, 3, 1, 3, 1, 6, 1, 3]",win
+262,RandomAgent,MachineLearningAgent,"[5, 5, 4, 5, 2, 5, 6, 1, 6, 1, 4, 1, 3]",win
+263,RandomAgent,MachineLearningAgent,"[4, 4, 1, 4, 4, 1, 3, 1, 2]",win
+264,RandomAgent,MachineLearningAgent,"[2, 4, 6, 4, 4, 6, 4, 3, 5, 3, 1, 1, 7, 1, 6, 1, 3, 1]",loss
+265,RandomAgent,MachineLearningAgent,"[2, 4, 1, 4, 3, 1, 6, 1, 7, 1, 5, 1]",loss
+266,RandomAgent,MachineLearningAgent,"[4, 4, 7, 5, 4, 2, 2, 2, 3, 1, 3, 1, 2, 1, 1, 1, 4, 1, 3, 2, 2, 3, 5, 3, 6, 3, 6, 4]",loss
+267,RandomAgent,MachineLearningAgent,"[1, 4, 1, 1, 2, 1, 5, 1, 7, 1]",loss
+268,RandomAgent,MachineLearningAgent,"[4, 4, 3, 5, 6, 5, 1, 1, 4, 1, 5, 1, 3, 1]",loss
+269,RandomAgent,MachineLearningAgent,"[3, 3, 1, 5, 6, 1, 4, 1, 2]",win
+270,RandomAgent,MachineLearningAgent,"[6, 6, 7, 4, 2, 3, 2, 1, 7, 1, 4, 1, 2, 1]",loss
+271,RandomAgent,MachineLearningAgent,"[4, 4, 7, 5, 1, 1, 2, 1, 6, 1, 6, 1]",loss
+272,RandomAgent,MachineLearningAgent,"[2, 4, 7, 4, 6, 3, 3, 4, 1, 1, 6, 1, 2, 1, 7, 1]",loss
+273,RandomAgent,MachineLearningAgent,"[4, 4, 5, 4, 3, 3, 6]",win
+274,RandomAgent,MachineLearningAgent,"[7, 5, 7, 5, 3, 2, 3, 4, 5, 4, 2, 2, 5, 2, 7, 2, 6, 2]",loss
+275,RandomAgent,MachineLearningAgent,"[4, 4, 6, 5, 1, 1, 7, 1, 7, 1, 7, 1]",loss
+276,RandomAgent,MachineLearningAgent,"[2, 4, 5, 5, 2, 2, 1, 1, 7, 1, 2, 1, 4, 1]",loss
+277,RandomAgent,MachineLearningAgent,"[1, 4, 6, 1, 7, 1, 3, 1, 5, 1]",loss
+278,RandomAgent,MachineLearningAgent,"[3, 3, 4, 5, 1, 2, 7, 1, 2, 1, 2, 1, 1, 1, 6, 2, 7, 2, 7, 2, 4, 3, 4, 3, 5, 3]",loss
+279,RandomAgent,MachineLearningAgent,"[3, 3, 1, 5, 4, 2, 4, 4, 5, 5, 1, 1, 3, 1, 6, 1, 3, 1]",loss
+280,RandomAgent,MachineLearningAgent,"[2, 4, 4, 3, 7, 6, 7, 7, 4, 6, 4, 1, 5, 3, 1, 1, 3, 1, 2, 1, 5, 1]",loss
+281,RandomAgent,MachineLearningAgent,"[2, 4, 3, 4, 7, 3, 2, 1, 1, 1, 5, 1, 4, 1, 6, 1]",loss
+282,RandomAgent,MachineLearningAgent,"[3, 3, 3, 4, 7, 2, 7, 2, 2, 2, 2, 1, 1, 1, 3, 1, 5, 1, 4, 1]",loss
+283,RandomAgent,MachineLearningAgent,"[3, 3, 5, 4, 5, 5, 1, 1, 7, 1, 3, 1, 6, 1]",loss
+284,RandomAgent,MachineLearningAgent,"[4, 4, 4, 5, 2, 5, 1, 1, 3]",win
+285,RandomAgent,MachineLearningAgent,"[6, 6, 2, 6, 2, 1, 1, 1, 3, 1, 5, 1, 7, 1]",loss
+286,RandomAgent,MachineLearningAgent,"[6, 6, 3, 6, 3, 2, 7, 1, 3, 1, 7, 1, 1, 1, 3]",win
+287,RandomAgent,MachineLearningAgent,"[6, 6, 3, 6, 1, 1, 4, 1, 7, 1, 3, 1]",loss
+288,RandomAgent,MachineLearningAgent,"[7, 5, 1, 5, 6, 1, 6, 1, 3, 1, 3, 1]",loss
+289,RandomAgent,MachineLearningAgent,"[7, 5, 7, 5, 6, 4, 1, 1, 6, 1, 5, 1, 6, 1]",loss
+290,RandomAgent,MachineLearningAgent,"[5, 5, 7, 5, 5, 7, 6, 6, 4]",win
+291,RandomAgent,MachineLearningAgent,"[1, 4, 6, 1, 7, 1, 5, 1, 3, 1]",loss
+292,RandomAgent,MachineLearningAgent,"[1, 4, 6, 1, 6, 1, 1, 1, 5, 1, 3, 2, 2, 2, 4, 2, 5, 2, 7, 2]",loss
+293,RandomAgent,MachineLearningAgent,"[2, 4, 6, 4, 2, 2, 6, 2, 7, 1, 4, 1, 6, 1, 5, 1]",loss
+294,RandomAgent,MachineLearningAgent,"[1, 4, 6, 1, 2, 1, 4, 1, 4, 1]",loss
+295,RandomAgent,MachineLearningAgent,"[3, 3, 5, 4, 6, 4, 3, 2, 3, 1, 4, 3, 7, 1, 3, 1, 1, 1, 5]",win
+296,RandomAgent,MachineLearningAgent,"[7, 5, 7, 5, 2, 4, 1, 1, 7, 1, 5, 1, 6, 1]",loss
+297,RandomAgent,MachineLearningAgent,"[2, 4, 1, 4, 4, 1, 5, 1, 3, 1, 4, 1]",loss
+298,RandomAgent,MachineLearningAgent,"[1, 4, 2, 4, 1, 1, 7, 1, 1, 1, 4, 2, 7, 2, 5, 2, 2, 2, 6, 3, 3, 3, 5, 3, 7, 3, 3, 4]",loss
+299,RandomAgent,MachineLearningAgent,"[1, 4, 6, 1, 7, 1, 3, 1, 1, 1, 7, 2, 3, 2, 6, 2, 2, 2, 3, 2, 6, 3, 4]",win
+300,RandomAgent,MachineLearningAgent,"[1, 4, 7, 1, 1, 1, 1, 4, 2, 1, 5, 4, 4, 2, 3, 2, 3, 2, 7, 2]",loss
+301,RandomAgent,MachineLearningAgent,"[3, 3, 5, 4, 2, 5, 6, 4, 7, 1, 5, 5, 6, 1, 3, 1, 4, 1]",loss
+302,RandomAgent,MachineLearningAgent,"[2, 4, 4, 3, 4, 5, 5, 5, 4, 5, 1, 1, 1, 1, 2, 1, 5, 1, 4]",win
+303,RandomAgent,MachineLearningAgent,"[5, 5, 2, 5, 4, 5, 3]",win
+304,RandomAgent,MachineLearningAgent,"[1, 4, 2, 4, 7, 1, 2, 1, 6, 1, 4, 1]",loss
+305,RandomAgent,MachineLearningAgent,"[1, 4, 3, 4, 1, 1, 2, 1, 7, 1, 7, 1]",loss
+306,RandomAgent,MachineLearningAgent,"[2, 4, 6, 4, 4, 6, 4, 3, 1, 1, 6, 1, 4, 1, 2, 1]",loss
+307,RandomAgent,MachineLearningAgent,"[2, 4, 4, 3, 7, 6, 3, 6, 4, 6, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 6, 2, 7, 3, 6, 3, 3, 3, 5, 5, 4, 4]",loss
+308,RandomAgent,MachineLearningAgent,"[7, 5, 4, 4, 4, 2, 6, 2, 6, 2, 2, 2, 7, 5, 1, 1, 1, 1, 3, 1, 2, 1, 5, 3]",loss
+309,RandomAgent,MachineLearningAgent,"[1, 4, 6, 1, 4, 1, 3, 1, 4, 1]",loss
+310,RandomAgent,MachineLearningAgent,"[2, 4, 7, 4, 5, 4, 1, 1, 7, 1, 4, 1, 3, 1]",loss
+311,RandomAgent,MachineLearningAgent,"[5, 5, 4, 5, 3, 5, 4, 2, 3, 4, 6]",win
+312,RandomAgent,MachineLearningAgent,"[5, 5, 7, 5, 1, 1, 6, 1, 5, 1, 2, 1]",loss
+313,RandomAgent,MachineLearningAgent,"[2, 4, 7, 4, 4, 7, 2, 2, 7, 2, 3, 1, 4, 1, 1, 1, 4, 1, 6, 1, 7, 2, 3, 2]",loss
+314,RandomAgent,MachineLearningAgent,"[6, 6, 5, 4, 3, 2, 3, 4, 7, 2, 1, 1, 7, 1, 7, 1, 4, 1]",loss
+315,RandomAgent,MachineLearningAgent,"[3, 3, 1, 5, 5, 5, 7, 1, 1, 1, 1, 1, 4, 2, 3, 2, 6, 2, 7, 2]",loss
+316,RandomAgent,MachineLearningAgent,"[2, 4, 1, 4, 1, 1, 2, 1, 2, 1, 4, 1]",loss
+317,RandomAgent,MachineLearningAgent,"[1, 4, 3, 4, 5, 1, 2, 1, 2, 1, 6, 1]",loss
+318,RandomAgent,MachineLearningAgent,"[6, 6, 3, 6, 5, 2, 6, 3, 4]",win
+319,RandomAgent,MachineLearningAgent,"[2, 4, 7, 4, 3, 3, 1, 1, 4, 1, 2, 1, 7, 1]",loss
+320,RandomAgent,MachineLearningAgent,"[4, 4, 3, 5, 4, 5, 1, 1, 4, 1, 1, 1, 7, 1, 4, 2, 6, 2, 2, 2, 7, 2, 5, 2, 6]",win
+321,RandomAgent,MachineLearningAgent,"[4, 4, 5, 4, 6, 6, 1, 1, 7]",win
+322,RandomAgent,MachineLearningAgent,"[1, 4, 2, 4, 2, 1, 4, 1, 2, 1, 7, 1]",loss
+323,RandomAgent,MachineLearningAgent,"[5, 5, 6, 5, 1, 1, 5, 1, 1, 1, 5, 1, 2, 2, 5, 2, 3, 2, 2, 2, 3, 3, 4]",win
+324,RandomAgent,MachineLearningAgent,"[6, 6, 4, 6, 1, 1, 1, 1, 6, 1, 4, 1, 4, 2, 3, 2, 5]",win
+325,RandomAgent,MachineLearningAgent,"[3, 3, 6, 6, 2, 4, 5, 2, 3, 1, 1, 1, 2, 1, 6, 1, 3, 1]",loss
+326,RandomAgent,MachineLearningAgent,"[7, 5, 3, 5, 5, 5, 2, 4, 5, 1, 1, 1, 5, 1, 4, 1, 3, 1]",loss
+327,RandomAgent,MachineLearningAgent,"[3, 3, 7, 5, 1, 1, 7, 1, 3, 1, 7, 1]",loss
+328,RandomAgent,MachineLearningAgent,"[4, 4, 6, 5, 6, 6, 6, 5, 3, 3, 1, 1, 5, 1, 5, 1, 2]",win
+329,RandomAgent,MachineLearningAgent,"[1, 4, 4, 4, 7, 1, 3, 1, 4, 1, 6, 1]",loss
+330,RandomAgent,MachineLearningAgent,"[1, 4, 2, 4, 2, 1, 5, 1, 2, 1, 1, 1, 5, 2, 7, 2, 6, 2, 6, 3, 7, 3, 4, 3, 7, 3]",loss
+331,RandomAgent,MachineLearningAgent,"[7, 5, 1, 5, 1, 1, 4, 1, 7, 1, 3, 1]",loss
+332,RandomAgent,MachineLearningAgent,"[7, 5, 5, 5, 2, 5, 6, 1, 2, 1, 7, 1, 4, 1]",loss
+333,RandomAgent,MachineLearningAgent,"[4, 4, 1, 4, 1, 1, 4, 1, 6, 1, 7, 1]",loss
+334,RandomAgent,MachineLearningAgent,"[4, 4, 2, 5, 6, 6, 6, 6, 7, 1, 1, 1, 6, 1, 2, 1, 5, 1]",loss
+335,RandomAgent,MachineLearningAgent,"[6, 6, 1, 1, 2, 1, 5, 1, 2, 1]",loss
+336,RandomAgent,MachineLearningAgent,"[4, 4, 3, 5, 1, 1, 6, 1, 1, 1, 3, 1, 6, 2, 5, 5, 5, 6, 7, 2, 5, 2, 3, 2]",loss
+337,RandomAgent,MachineLearningAgent,"[2, 4, 6, 4, 1, 1, 1, 1, 1, 1, 2, 2, 4, 2, 2, 2, 7, 3, 6, 3]",loss
+338,RandomAgent,MachineLearningAgent,"[2, 4, 3, 4, 3, 4, 3, 3, 2, 1, 3, 2, 5, 1, 1, 2, 1, 5, 4, 1, 3, 1, 2, 4]",loss
+339,RandomAgent,MachineLearningAgent,"[5, 5, 3, 4, 7, 4, 6, 2, 2, 1, 6, 1, 5, 1, 1, 5, 6, 1, 5, 1, 7, 2, 6]",win
+340,RandomAgent,MachineLearningAgent,"[5, 5, 4, 5, 4, 5, 3, 2, 2, 1, 2, 1, 6]",win
+341,RandomAgent,MachineLearningAgent,"[5, 5, 6, 5, 5, 4, 4, 6, 7, 3, 4, 3, 1, 1, 4, 1, 7, 1, 3, 1]",loss
+342,RandomAgent,MachineLearningAgent,"[1, 4, 2, 4, 4, 1, 5, 1, 4, 1, 7, 1]",loss
+343,RandomAgent,MachineLearningAgent,"[5, 5, 5, 5, 7, 4, 2, 4, 5, 1, 6, 1, 1, 1, 7, 1, 1, 2, 2, 2, 7, 2, 4, 2, 7]",win
+344,RandomAgent,MachineLearningAgent,"[7, 5, 7, 5, 1, 1, 2, 1, 7, 1, 7]",win
+345,RandomAgent,MachineLearningAgent,"[7, 5, 4, 4, 2, 5, 2, 2, 5, 2, 6, 1, 7, 1, 3, 1, 5, 1]",loss
+346,RandomAgent,MachineLearningAgent,"[1, 4, 7, 1, 1, 1, 6, 1, 2, 1, 3, 2, 4, 2, 4, 2, 5, 2]",loss
+347,RandomAgent,MachineLearningAgent,"[4, 4, 5, 4, 3, 3, 7, 2, 5, 2, 3, 2, 6]",win
+348,RandomAgent,MachineLearningAgent,"[5, 5, 5, 5, 4, 6, 1, 4, 7, 1, 7, 1, 6, 1, 4, 1]",loss
+349,RandomAgent,MachineLearningAgent,"[1, 4, 6, 1, 7, 1, 1, 1, 7, 1, 7, 2, 3, 2, 2, 2, 3, 2, 4, 2, 4, 3, 6, 6, 3, 3, 3, 4, 7]",win
+350,RandomAgent,MachineLearningAgent,"[2, 4, 4, 3, 4, 5, 7, 5, 5, 5, 1, 3, 4, 1, 1, 1, 1, 1, 5, 2, 5, 2]",loss
+351,RandomAgent,MachineLearningAgent,"[2, 4, 1, 4, 3, 1, 7, 1, 7, 1, 4, 1]",loss
+352,RandomAgent,MachineLearningAgent,"[5, 5, 7, 5, 3, 2, 7, 3, 4, 1, 1, 1, 2, 1, 2, 1, 6]",win
+353,RandomAgent,MachineLearningAgent,"[1, 4, 7, 1, 3, 1, 5, 1, 1, 1, 7, 2, 2, 2, 6, 2, 5, 2, 3, 2]",loss
+354,RandomAgent,MachineLearningAgent,"[7, 5, 5, 5, 4, 4, 5, 7, 2, 7, 1, 1, 5, 1, 1, 1, 1, 2, 5, 2, 4, 2, 3]",win
+355,RandomAgent,MachineLearningAgent,"[2, 4, 3, 4, 3, 4, 2, 2, 4, 1, 3, 1, 4, 1, 7, 1]",loss
+356,RandomAgent,MachineLearningAgent,"[4, 4, 7, 5, 4, 2, 3, 2, 5, 2, 4, 1, 3, 2]",loss
+357,RandomAgent,MachineLearningAgent,"[3, 3, 2, 4, 1, 1, 2, 1, 7, 1, 3, 1]",loss
+358,RandomAgent,MachineLearningAgent,"[5, 5, 6, 5, 6, 5, 6, 6, 1, 1, 7, 1, 3, 1, 5, 1]",loss
+359,RandomAgent,SmartAgent,"[5, 4, 4, 4, 6, 6, 4, 4, 7, 5, 7, 1, 2, 4, 3, 6, 7, 2, 5, 6, 6, 7]",loss
