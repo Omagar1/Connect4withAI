@@ -451,7 +451,7 @@ class SmartAgent(agent):
                 
                         
 class minMaxAgent(agent):
-    def __init__(self, game, symbol, maxDepth = 2, addDelay=True):
+    def __init__(self, game, symbol, maxDepth = 5, addDelay=True):
         self.game = game
         self.symbol = symbol
         self.opponentSymbol = "O" if self.symbol == "X" else "X" 
@@ -459,85 +459,78 @@ class minMaxAgent(agent):
         self.name = "minMaxAgent"
         self.addDelay = addDelay
     
-    def calcMovesScores(self, game, isSelfTurn = True, currentDepth = 1): ## will return a tree of scores for each possible move
+    def isMoveWinning(self, game, col, symbol): ## makes moves on board passed through 
+        moveValid = game.makeMove(col, symbol)
+        result = game.isWinner(symbol)
+        return (result , moveValid)
         
         
-        if(currentDepth > self.maxDepth):
-            return 0; ## no winning move found at maximum depth so position is deemed neutral
-        
-        scores = {col: 0 for col in range(1, game.length+1)}
-        
-        col = 1
-        for col, score in scores.items():
-            copyOfGameForSelf = copy.deepcopy(game)
-            moveValid = copyOfGameForSelf.makeMove(col, self.symbol)
-            
-            copyOfGameForOpp = copy.deepcopy(game)
-            copyOfGameForOpp.makeMove(col, self.opponentSymbol)
-            if(not moveValid): ## so as not to suggest a move that isn't valid
-                scores[col] = None
-            elif(copyOfGameForSelf.isWinner(self.symbol)):  
-                scores[col] = 10**(self.maxDepth-currentDepth) * (1 if isSelfTurn  else -0.5) # second condition so it will understand what the opponent will do 
-            elif(copyOfGameForOpp.isWinner(self.opponentSymbol)):
-                scores[col] = (10**(self.maxDepth-currentDepth)) * (0.5 if isSelfTurn != 0 else -1) ## 0.5 in both scores is to represent a blocking move 
+    def minMax(self, game, currentSymbol, currentDepth = 1, alpha=float('-inf'), beta=float('inf')):
+
+        scores = {}
+        # finds all legal moves and creates copy to make move
+        for col in range(1, self.game.length + 1):
+            # make move
+            copyOfGame = copy.deepcopy(game)
+            colScore = None
+            # evaluates the move (recursive )
+            isWinning, moveValid = self.isMoveWinning(copyOfGame, col, currentSymbol)
+            if not moveValid:  
+                colScore =  float('-inf') if currentSymbol == self.symbol else float('inf') # so move is never chosen if not valid 
+            elif isWinning:
+                colScore = 10**(self.maxDepth-currentDepth) * (1 if currentSymbol == self.symbol else -1) # second condition so it will understand what the opponent will do 
+            ## set up to account for turns to get to that positions so it will prioritise a blocking move in 1 move than an winning move in 5
+            elif currentDepth >= self.maxDepth: # exit condition
+                colScore = 0
             else:
-                gameToPass = copyOfGameForSelf if isSelfTurn else copyOfGameForOpp
-                scores[col]  = self.calcMovesScores(gameToPass, not isSelfTurn, currentDepth + 1)
-            ##print(scores) ## test 
-        return scores
-        
-    def minMax(self, scores, isMaxing, currentDepth = 1):
-        
-        score = 0 ## remove?
-        bestScore = 0; 
-        colWithBestScore = None; ##  defaulting to first column to avoid error
-        availableCols  = list(range(1, self.game.length + 1))
-        ##print(scores.items())
-        for col, score in scores.items():
-            #print(type(score))
-            if (score == None):
-                availableCols.remove(col) ## removing so it isn't used as best col as the move isn't valid 
-            elif (isinstance(score, dict)):
-                scores[col] = self.minMax(score, not isMaxing, currentDepth+1)[1]
-                score = scores[col]
-                
+                colScore, _ = self.minMax(
+                    copyOfGame, 
+                    "O" if currentSymbol == "X" else "X", 
+                    currentDepth + 1,
+                    alpha,
+                    beta 
+                )
+
+            # save score before prune 
+            scores[col] = colScore
+            # Pruning Logic
+            if currentSymbol == self.symbol:
+                alpha = max(alpha, colScore)
+            else:
+                beta = min(beta, colScore)
+
+            if beta <= alpha:
+                #print("Branch Pruned") test 
+                break 
+
             
-            if(score != None):
-                if((isMaxing) and score > bestScore):
-                    bestScore = score
-                    colWithBestScore = col
-                elif((not isMaxing) and score < bestScore):
-                    bestScore = score
-                    colWithBestScore = col
-            if not self.addDelay:
-                print(f"scores for col: {col} at depth: {currentDepth} Scores: {scores}")
-       
 
-        if(colWithBestScore == None):
-            randomIndex = random.randint(0,len(availableCols)-1)
-            colWithBestScore = availableCols[randomIndex] ## adding some random so it wont always play the same game if it thinks moves have equal value 
-            bestScore = scores[colWithBestScore]## Randomise 
+        # finds best move
+        if currentDepth == 1:
+            print(f"currentDepth: {currentDepth}")#test 
+            print(scores) #test
 
-        return (colWithBestScore, bestScore)
-        
+        if currentSymbol == self.symbol:
+            bestScore = max(scores.values())
+        else: 
+            bestScore = min(scores.values())
+
+        # randomising out of the sub list of cols with scores equal to best score so Agent isn't predictable 
+        bestCols = [col for col, score in scores.items() if score == bestScore] # getting sublist 
+        bestCol = random.choice(bestCols) # randomly choosing 
+
+        #print(f"bestCol: {bestCol}")#test
+
+        return (bestScore, bestCol)
+
+            
+ 
     def makeMove(self):
-        scores = self.calcMovesScores(self.game)
-        result = self.minMax(scores, True)
-        bestCol = result[0]
-        bestScore = result[1]
-        ### making the move ### 
-        ##sleep(0.5) # added sleep so that the moves are made at a manageable speed for humans to see
-        print (scores)
-        ## steps away
-        ##steps = math.log(abs(bestScore),5)
         
-
-
-
-        print(f"best Col:{bestCol} with score: {bestScore}")
-      
-        moveValid = self.game.makeMove(bestCol, self.symbol)
-        return bestCol
+        score, col = self.minMax(self.game, self.symbol)
+        print(f"Min Max thinks that {col} is the best col with score: {score}")
+        self.game.makeMove(col, self.symbol)
+        return col
 
 
 class MachineLearningAgent(agent):

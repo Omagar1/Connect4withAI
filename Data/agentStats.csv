@@ -1,5 +1,5 @@
 agent,winNum,lossNum,drawNum
-RandomAgent,48,310,2
-SmartAgent,126,0,1
-minMaxAgent,125,0,1
+RandomAgent,49,311,2
+SmartAgent,129,1,1
+minMaxAgent,128,1,1
 MachineLearningAgent,113,0,0

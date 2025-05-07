@@ -365,3 +365,8 @@ gameID,player1,player2,moves,endState
 364,SmartAgent,MachineLearningAgent,"[7, 5, 5, 5, 1, 6, 5, 6, 3, 3, 1, 6, 6, 1, 4, 1, 2]",win
 365,SmartAgent,MachineLearningAgent,"[5, 4, 6, 2, 4, 4, 1, 2, 1, 7, 3, 3, 3, 5, 2, 6, 2]",win
 366,minMaxAgent,MachineLearningAgent,"[2, 5, 1, 1, 4, 3, 3, 1, 5, 5, 5, 2, 7, 2, 5, 2, 2, 1, 1, 4, 4]",win
+367,minMaxAgent,SmartAgent,"[2, 5, 7, 7, 6, 1, 3, 4, 6, 6]",loss
+368,RandomAgent,RandomAgent,"[7, 1, 5, 2, 6, 1, 3, 1, 3, 1]",loss
+369,SmartAgent,minMaxAgent,"[2, 7, 7, 3, 4, 5, 6, 2, 2, 6, 5, 7, 3, 1, 5, 1, 7, 6, 1, 1, 5, 5, 7, 5, 1, 4, 4]",win
+370,SmartAgent,minMaxAgent,"[6, 1, 1, 5, 7, 3, 6, 2, 4, 7, 5, 5, 7, 7, 5, 7, 1, 1, 2, 5, 1, 7, 6, 6, 4, 3, 1, 2, 4, 6, 4]",win
+371,SmartAgent,minMaxAgent,"[5, 4, 1, 7, 6, 5, 6, 3, 4, 5, 3, 4, 3, 3, 1, 5, 5, 6, 4, 4, 2, 7]",loss
