@@ -244,7 +244,7 @@ class SmartAgent:
                 
                         
 class minMaxAgent:
-    def __init__(self, game, symbol, maxDepth = 5):
+    def __init__(self, game, symbol, maxDepth = 7):
         self.game = game
         self.symbol = symbol
         self.maxDepth = maxDepth
@@ -255,26 +255,45 @@ class minMaxAgent:
         return (result , moveValid)
         
         
-    def minMax(self, game, currentSymbol, currentDepth = 1):
+    def minMax(self, game, currentSymbol, currentDepth = 1, alpha=float('-inf'), beta=float('inf')):
 
-        scores = []
+        scores = {}
         # finds all legal moves and creates copy to make move
         for col in range(1, self.game.length + 1):
             # make move
             copyOfGame = copy.deepcopy(game)
-
+            colScore = None
             # evaluates the move (recursive )
             isWinning, moveValid = self.isMoveWinning(copyOfGame, col, currentSymbol)
-            if not moveValid:
-                scores.append( float('-inf') if currentSymbol == self.symbol else float('inf') )# so move is never chosen if not valid 
+            if not moveValid:  
+                colScore =  float('-inf') if currentSymbol == self.symbol else float('inf') # so move is never chosen if not valid 
             elif isWinning:
-                scores.append(10**(self.maxDepth-currentDepth) * (1 if currentSymbol == self.symbol else -1)) # second condition so it will understand what the opponent will do 
+                colScore = 10**(self.maxDepth-currentDepth) * (1 if currentSymbol == self.symbol else -1) # second condition so it will understand what the opponent will do 
             ## set up to account for turns to get to that positions so it will prioritise a blocking move in 1 move than an winning move in 5
             elif currentDepth >= self.maxDepth: # exit condition
-                scores.append(0)
+                colScore = 0
             else:
-                colScore = self.minMax(copyOfGame, "O" if currentSymbol == "X" else "X", currentDepth + 1 )[0]
-                scores.append(colScore)
+                colScore, _ = self.minMax(
+                    copyOfGame, 
+                    "O" if currentSymbol == "X" else "X", 
+                    currentDepth + 1,
+                    alpha,
+                    beta 
+                )
+
+            # save score before prune 
+            scores[col] = colScore
+            # Pruning Logic
+            if currentSymbol == self.symbol:
+                alpha = max(alpha, colScore)
+            else:
+                beta = min(beta, colScore)
+
+            if beta <= alpha:
+                #print("Branch Pruned") test 
+                break 
+
+            
 
         # finds best move
         if currentDepth == 1:
@@ -282,13 +301,13 @@ class minMaxAgent:
             print(scores) #test
 
         if currentSymbol == self.symbol:
-            bestScore = max(scores)
+            bestScore = max(scores.values())
         else: 
-            bestScore = min(scores)
+            bestScore = min(scores.values())
 
         # randomising out of the sub list of cols with scores equal to best score so Agent isn't predictable 
-        bestCols = [i + 1 for i, score in enumerate(scores) if score == bestScore]
-        bestCol = random.choice(bestCols)
+        bestCols = [col for col, score in scores.items() if score == bestScore] # getting sublist 
+        bestCol = random.choice(bestCols) # randomly choosing 
 
         #print(f"bestCol: {bestCol}")#test
         
