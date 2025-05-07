@@ -244,42 +244,62 @@ class SmartAgent:
                 
                         
 class minMaxAgent:
-    def __init__(self, game, symbol, maxDepth = 2):
+    def __init__(self, game, symbol, maxDepth = 5):
         self.game = game
         self.symbol = symbol
-        self.opponentSymbol = "O" if self.symbol == "X" else "X" 
         self.maxDepth = maxDepth
     
-    def isMoveWinning(self, game, col, symbol): 
-        copyOfGame = copy.deepcopy(game)
-        moveValid = copyOfGame.makeMove(col, symbol)
-        return copyOfGame.isWinner(col, symbol), moveValid
+    def isMoveWinning(self, game, col, symbol): ## makes moves on board passed through 
+        moveValid = game.makeMove(col, symbol)
+        result = game.isWinner(symbol)
+        return (result , moveValid)
         
         
-    def minMax(self, game, isSelfTurn, currentDepth = 1):
+    def minMax(self, game, currentSymbol, currentDepth = 1):
 
-
+        scores = []
         # finds all legal moves and creates copy to make move
-        for col in range(1,self.game.length+1):
+        for col in range(1, self.game.length + 1):
             # make move
-            
+            copyOfGame = copy.deepcopy(game)
 
             # evaluates the move (recursive )
-            if self.isMoveWinning(game, col, self.symbol):
-                return 10**(self.maxDepth-currentDepth) * (1 if isSelfTurn  else -1) # second condition so it will understand what the opponent will do 
-            elif self.isMoveWinning(game, col, self.opponentSymbol):
-                return
-            elif currentDepth > self.maxDepth:
-                return 0; ## might add heuristics later
+            isWinning, moveValid = self.isMoveWinning(copyOfGame, col, currentSymbol)
+            if not moveValid:
+                scores.append( float('-inf') if currentSymbol == self.symbol else float('inf') )# so move is never chosen if not valid 
+            elif isWinning:
+                scores.append(10**(self.maxDepth-currentDepth) * (1 if currentSymbol == self.symbol else -1)) # second condition so it will understand what the opponent will do 
+            ## set up to account for turns to get to that positions so it will prioritise a blocking move in 1 move than an winning move in 5
+            elif currentDepth >= self.maxDepth: # exit condition
+                scores.append(0); ## might add heuristics later
             else:
-                self.minMax(game)
-       
-        # fins best move
-        pass 
+                colScore = self.minMax(copyOfGame, "O" if currentSymbol == "X" else "X", currentDepth + 1 )[0]
+                scores.append(colScore)
+
+        # finds best move
+        if currentDepth == 1:
+            print(f"currentDepth: {currentDepth}")#test 
+            print(scores) #test
+
+        if currentSymbol == self.symbol:
+            bestScore = max(scores)
+        else: 
+            bestScore = min(scores)
+
+        bestCol = scores.index(bestScore) + 1 
+
+        #print(f"bestCol: {bestCol}")#test 
+
+
+        return (bestScore, bestCol)
+
+            
  
     def makeMove(self):
-
-        pass
+        
+        result = self.minMax(self.game, self.symbol)
+        print(f"Min Max thinks that {result[1]} is the best col with score: {result[0]}")
+        self.game.makeMove(result[1], self.symbol)
         
     
             
