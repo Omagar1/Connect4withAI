@@ -271,7 +271,7 @@ class minMaxAgent:
                 scores.append(10**(self.maxDepth-currentDepth) * (1 if currentSymbol == self.symbol else -1)) # second condition so it will understand what the opponent will do 
             ## set up to account for turns to get to that positions so it will prioritise a blocking move in 1 move than an winning move in 5
             elif currentDepth >= self.maxDepth: # exit condition
-                scores.append(0); ## might add heuristics later
+                scores.append(0)
             else:
                 colScore = self.minMax(copyOfGame, "O" if currentSymbol == "X" else "X", currentDepth + 1 )[0]
                 scores.append(colScore)
@@ -286,9 +286,12 @@ class minMaxAgent:
         else: 
             bestScore = min(scores)
 
-        bestCol = scores.index(bestScore) + 1 
+        # randomising out of the sub list of cols with scores equal to best score so Agent isn't predictable 
+        bestCols = [i + 1 for i, score in enumerate(scores) if score == bestScore]
+        bestCol = random.choice(bestCols)
 
-        #print(f"bestCol: {bestCol}")#test 
+        #print(f"bestCol: {bestCol}")#test
+        
 
 
         return (bestScore, bestCol)
