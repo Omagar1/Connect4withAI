@@ -1,9 +1,10 @@
 import random 
 import math
-from time import sleep
+import time
 import copy
 import os
 import csv
+from collections import deque
 
 # machine learning stuff
 import pandas as pd
@@ -12,6 +13,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Input
 from tensorflow.keras.optimizers import Adam
+
 
 class Connect4Game:
     
@@ -66,7 +68,7 @@ class Connect4Game:
             self.printBoard()
             chosenCol = player.makeMove()
             moves.append(chosenCol) # not storing player symbol as it can be worked out by move count
-            playerWon = self.isWinner(player.symbol)
+            playerWon, _ = self.isWinner(player.symbol)
             round +=1
             
         if(playerWon):
@@ -133,7 +135,7 @@ class Connect4Game:
             player = self.players[(round%2)-1]
             chosenCol = player.makeMove()
             moves.append(chosenCol) # not storing player symbol as it can be worked out by move count
-            playerWon = self.isWinner(player.symbol)
+            playerWon, _ = self.isWinner(player.symbol)
             round +=1
             
         if(playerWon):
@@ -188,9 +190,14 @@ class Connect4Game:
             agentStats = playerAgent.getAndFormatAgentStats()
             print(f"{i}) " +player+ "Stats:" +agentStats )
             i += 1
+        print("S) for stats menu")
+        
 
         while(True):
             userInput = input(": " )
+            if userInput == "S":
+                self.statsMenu()
+                break
             playerAgent = self.getAgent(userInput, playerNum)
             if not playerAgent:
                 print("invalid input Try again")
@@ -265,10 +272,10 @@ class Connect4Game:
                             else:
                                 break ## line broken therefore not counted: 
                         if numChecked == 4:
-                            return True
+                            return True, (ROW_TRANSFORM, COL_TRANSFORM)
                 row -=1
             column += 1
-        return False
+        return False, ("") # to keep return format consistent
     
     def benchMark(self, numGamesPerAgent = 500): # to get win rates of agents 
         agentsToTest = self.availablePlayers
@@ -284,8 +291,10 @@ class Connect4Game:
                         players.append(self.getAgent(agent2,2,False))
 
                         self.startGameForStats(players)
-                
-                
+    def statsMenu(self):
+        # win rate vs spesfic oponent
+        # Game-Level Metrics (Game Length, Winning Patterns: frequency of horizontal, vertical, diagonal winning strategies)
+        pass
 
 
 
@@ -390,7 +399,7 @@ class RandomAgent(agent):
     def makeMove(self):
         moveValid = False
         if self.addDelay:
-                sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+                time.sleep(1) # added time.sleep so that the moves are made at a manageable speed for humans to see
         while (moveValid != True):
             chosenCol = random.randint(1,self.game.length)
             moveValid = self.game.makeMove(chosenCol, self.symbol)
@@ -414,7 +423,7 @@ class SmartAgent(agent):
             copyOfGame = copy.deepcopy(self.game)
             copyOfGame.makeMove(col,symbol)
             
-            if(copyOfGame.isWinner(symbol)):
+            if(copyOfGame.isWinner(symbol)[0]):
                 # make move
                 return col
             col += 1
@@ -429,7 +438,7 @@ class SmartAgent(agent):
         moveValid = False
 
         if self.addDelay:
-            sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+            time.sleep(1) # added time.sleep so that the moves are made at a manageable speed for humans to see
         
         # 1) check if there is a winning move for self 
         winningMove = self.checkForWinningMove(self.symbol)
@@ -459,17 +468,28 @@ class minMaxAgent(agent):
         self.name = "minMaxAgent"
         self.addDelay = addDelay
     
+    class TreeNode:
+        def __init__(self, col, score, depth, symbol):
+            self.col = col
+            self.score = score
+            self.depth = depth
+            self.symbol = symbol
+            self.branches = []
+    
     def isMoveWinning(self, game, col, symbol): ## makes moves on board passed through 
         moveValid = game.makeMove(col, symbol)
-        result = game.isWinner(symbol)
+        result, _ = game.isWinner(symbol)
         return (result , moveValid)
         
         
-    def minMax(self, game, currentSymbol, currentDepth = 1, alpha=float('-inf'), beta=float('inf')):
-
+    def minMax(self, game, currentSymbol, currentDepth = 1, alpha=float('-inf'), beta=float('inf'), rootNode = None):
+        #print(f"self.numNodesExpanded {self.numNodesExpanded}")#test 
         scores = {}
         # finds all legal moves and creates copy to make move
         for col in range(1, self.game.length + 1):
+            self.numNodesExpanded += 1 
+            # TreeNode stuff for visualisation
+            branchNode = self.TreeNode(col, None, currentDepth, currentSymbol)
             # make move
             copyOfGame = copy.deepcopy(game)
             colScore = None
@@ -483,32 +503,42 @@ class minMaxAgent(agent):
             elif currentDepth >= self.maxDepth: # exit condition
                 colScore = 0
             else:
+                
+
                 colScore, _ = self.minMax(
                     copyOfGame, 
                     "O" if currentSymbol == "X" else "X", 
                     currentDepth + 1,
                     alpha,
-                    beta 
+                    beta,
+                    branchNode
                 )
 
             # save score before prune 
             scores[col] = colScore
+
+            # TreeNode stuff for visualisation
+            branchNode.score = colScore # updating score 
+            rootNode.branches.append(branchNode)
+
             # Pruning Logic
-            if currentSymbol == self.symbol:
+            if colScore == float('-inf') or colScore == float('inf'): ## as i use infinity to determine if a move is valid i dont want it to be counted in pruning
+                pass
+            elif currentSymbol == self.symbol:
                 alpha = max(alpha, colScore)
             else:
                 beta = min(beta, colScore)
 
-            if beta <= alpha:
-                #print("Branch Pruned") test 
+            if currentDepth > 2 and beta <= alpha: ## to avoid an immediate loss being missed
+                self.numBranchesPruned += 1 
                 break 
 
             
 
         # finds best move
-        if currentDepth == 1:
-            print(f"currentDepth: {currentDepth}")#test 
-            print(scores) #test
+        # if currentDepth == 1:
+        #     print(f"currentDepth: {currentDepth}")#test 
+        #     print(scores) #test
 
         if currentSymbol == self.symbol:
             bestScore = max(scores.values())
@@ -526,11 +556,60 @@ class minMaxAgent(agent):
             
  
     def makeMove(self):
-        
-        score, col = self.minMax(self.game, self.symbol)
+        # performance metrics setup
+        self.numNodesExpanded = 0
+        self.numBranchesPruned = 0 
+
+        numPossibleBranches = 0
+        for n in range(0, self.maxDepth):
+            numPossibleBranches += self.game.length**n
+
+        ## TreeNode stuff for visualisation
+        rootNode = self.TreeNode(None, None, 0, self.symbol)
+        ## making the move
+        start = time.time()
+        score, col = self.minMax(self.game, self.symbol, rootNode=rootNode)
+        end = time.time()
+        ## drawing tree
+        self.drawTree(rootNode)
+
         print(f"Min Max thinks that {col} is the best col with score: {score}")
+        print("other Stats: ")
+        print(f"Number of Nodes Expanded: {self.numNodesExpanded}")
+        print(f"Max depth: {self.maxDepth}")
+        print(f"Branching Factor: {(self.numNodesExpanded-1)/self.maxDepth}" )
+        print(f"Branches Pruned: {self.numBranchesPruned}")
+        print(f"Percentage Pruned: {(self.numBranchesPruned/numPossibleBranches) *100}%")
+        print(f"Effective Branching Factor: {(self.numBranchesPruned/self.numNodesExpanded) *100}%")
+        print(f"Execution Time: {end - start:.4f} seconds")
         self.game.makeMove(col, self.symbol)
+        
         return col
+    
+    
+    ## ---- TreeNode stuff for visualisation ----
+    def drawTree(self, root): # breadth first traversal 
+        queue = deque(root.branches) # de is double ended 
+        currentDepth = 0 
+        while queue:
+            currentNode = queue.popleft()
+            endStr = ""
+
+            if currentNode.depth > currentDepth: # to add a new line for each level of depth
+                print("\n")
+                currentDepth = currentNode.depth
+            
+            if currentNode.col == 1 : # to add a space between nodes of different parent nodes 
+                print(":", end="" )
+    
+
+            print (f"[{currentNode.symbol} {currentNode.col} {currentNode.score}]", end=endStr)
+
+            for branch in currentNode.branches:
+                queue.append(branch)
+
+        print("\n")
+
 
 
 class MachineLearningAgent(agent):
@@ -587,7 +666,7 @@ class MachineLearningAgent(agent):
 
 
         if self.addDelay:
-            sleep(1) # added sleep so that the moves are made at a manageable speed for humans to see
+            time.sleep(1) # added time.sleep so that the moves are made at a manageable speed for humans to see
 
         # finding what move is the best move according to ML agent 
         bestResult = -1

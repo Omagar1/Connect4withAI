@@ -1,5 +1,6 @@
 agent,winNum,lossNum,drawNum
-RandomAgent,49,311,2
-SmartAgent,129,1,1
-minMaxAgent,128,1,1
-MachineLearningAgent,113,0,0
+RandomAgent,50,311,2
+SmartAgent,131,13,1
+minMaxAgent,150,3,1
+MachineLearningAgent,113,1,0
+HumanPlayer,6,4,0
